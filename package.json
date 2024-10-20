@@ -1,0 +1,38 @@
+{
+  "name": "knevee",
+  "version": "1.0.1-pre",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "bin": {
+    "knevee": "./dist/esm/bin.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:esm && chmod +x ./dist/esm/bin.js && chmod +x ./dist/cjs/bin.js",
+    "build:cjs": "tsc --module commonjs --outDir ./dist/cjs",
+    "build:esm": "tsc --module esnext --outDir ./dist/esm",
+    "prepublish": "npm run build",
+    "reinstall": "npm run build && npm i . -g",
+    "style": "prettier --check .",
+    "style:fix": "prettier --write .",
+    "test": "node --test --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  \"**/*.test.ts\""
+  },
+  "prettier": "@reggi/prettier-config",
+  "dependencies": {
+    "zx": "^8.1.9"
+  },
+  "devDependencies": {
+    "@reggi/prettier-config": "^1.0.2",
+    "@swc/core": "^1.7.36",
+    "@types/node": "^22.7.7",
+    "typescript": "^5.6.3"
+  }
+}
