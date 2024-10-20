@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reggi/knevee"
+    "url": "git+https://github.com/reggi/knevee.git"
   },
   "type": "module",
   "exports": {
@@ -13,7 +13,7 @@
     }
   },
   "bin": {
-    "knevee": "./dist/esm/bin.js"
+    "knevee": "dist/esm/bin.js"
   },
   "files": [
     "dist",
@@ -23,7 +23,7 @@
     "build": "npm run build:cjs && npm run build:esm && chmod +x ./dist/esm/bin.js && chmod +x ./dist/cjs/bin.js",
     "build:cjs": "tsc --module commonjs --outDir ./dist/cjs",
     "build:esm": "tsc --module esnext --outDir ./dist/esm",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "reinstall": "npm run build && npm i . -g",
     "style": "prettier --check .",
     "style:fix": "prettier --write .",
