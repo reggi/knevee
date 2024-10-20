@@ -1,6 +1,17 @@
 # knevee
 
-I've sought to create a simple way to execute javascript in the terminal:
+**knevee** simplifies running JavaScript directly from the terminal. It enables
+users to execute scripts efficiently, providing intuitive CLI interactions.
+
+## Overview
+
+knevee allows you to craft lightweight, customizable command-line tools using
+JavaScript. Define a module, specify the positional arguments and options, and
+you're ready to run your script with ease.
+
+## Example
+
+Here’s a quick example of how a simple greeting command could be implemented:
 
 ```js
 #!/usr/bin/env knevee
@@ -12,7 +23,10 @@ export default async name => {
 }
 ```
 
-This can be run with
+## Usage
+
+You can execute the script directly, view help, and handle various command-line
+inputs:
 
 ```bash
 $ greeting --help
@@ -33,9 +47,24 @@ $ greeting "michael jordan"
 hello michael jordan
 ```
 
-## Export Options
+## Installation
 
-The spec for exports is as follows:
+Install knevee globally using npm to use it from anywhere on your system:
+
+```bash
+npm install knevee -g
+```
+
+Alternativley you can execute a single file like this
+
+```bash
+npx knevee ./file.js
+```
+
+## Configuration Options
+
+knevee supports a robust set of configuration options to tailor your scripts.
+Here's what you can customize:
 
 | option              | required | type                                                                | description                                                                                                                 |
 | ------------------- | -------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
