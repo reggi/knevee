@@ -184,6 +184,9 @@ async function _commandCenter(_pointer: undefined | string, argv: string[]) {
       }
       const FLAGS_OBJECT = Symbol('FLAGS_OBJECT')
       const includeFlags = cmd.hasAuthoredFlags ? [{...rest, FLAGS_OBJECT}] : []
+      while (truncatedPositionals.length < cmd.positionals.length) {
+        truncatedPositionals.push(undefined);
+      }
       return [...truncatedPositionals, ...includeFlags]
     }
     return [clone]
@@ -196,7 +199,10 @@ async function _commandCenter(_pointer: undefined | string, argv: string[]) {
         const jsCode = `
           const flags = ${JSON.stringify(flags)};
           import('${cmd.path}').then(async cmd => {
-            const value = await cmd.default(...${JSON.stringify(args)});
+            const value = await cmd.default(...${JSON.stringify(args)}.map(v => {
+              if (v === null) return undefined
+              return v
+            }));
             if ("${cmd.output}" === 'bool') {
               if (flags.emoji) {
                 console.log(value ? '✅' : '❌')
