@@ -1,3 +1,4 @@
+import { spawn } from 'child_process';
 import {Cmdobj} from './cmdobj.js'
 import dirscan from './dirscan.js'
 import {filterItems} from './filter.js'
@@ -7,7 +8,7 @@ import {stat} from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
 import {parseArgs} from 'node:util'
-import {$, which} from 'zx'
+import which from 'which'
 
 async function _commandCenter(_pointer: undefined | string, argv: string[]) {
   const cwd = process.cwd()
@@ -191,37 +192,47 @@ async function _commandCenter(_pointer: undefined | string, argv: string[]) {
   await Promise.all(
     input.map(async args => {
       try {
-        const value = await cmd.default(...args)
-        if (cmd.output === 'bool') {
-          if (flags.emoji) {
-            console.log(value ? '✅' : '❌')
-          } else if (flags.int) {
-            console.log(value ? 1 : 0)
-          } else if (value) {
-            console.log(value)
-          }
-        } else if (cmd.output === 'lines') {
-          if (Array.isArray(value)) {
-            console.log(value.join('\n'))
-          } else {
-            console.log(value)
-          }
-        } else if (cmd.output === 'stdout') {
-          console.log(value)
-        } else if (cmd.output === 'json') {
-          console.log(JSON.stringify(value, null, 2))
-        } else if (cmd.output === 'bash') {
-          const code = [value].flat(Infinity).join('\n')
-          if (flags.print) {
-            console.log(code)
-          } else {
-            const q = $.quote
-            $.quote = v => v
-            const {stdout} = await $`${code}`
-            $.quote = q
-            console.log(stdout.trim())
-          }
-        }
+        // Create the JavaScript code as a string
+        const jsCode = `
+          const flags = ${JSON.stringify(flags)};
+          import('${cmd.path}').then(async cmd => {
+            const value = await cmd.default(...${JSON.stringify(args)});
+            if ("${cmd.output}" === 'bool') {
+              if (flags.emoji) {
+                console.log(value ? '✅' : '❌')
+              } else if (flags.int) {
+                console.log(value ? 1 : 0)
+              } else if (value) {
+                console.log(value)
+              }
+            } else if ('${cmd.output}' === 'lines') {
+              if (Array.isArray(value)) {
+                console.log(value.join('\\n'))
+              } else {
+                console.log(value)
+              }
+            } else if ('${cmd.output}' === 'stdout') {
+              console.log(value)
+            } else if ('${cmd.output}' === 'json') {
+              console.log(JSON.stringify(value, null, 2))
+            } else if ('${cmd.output}' === 'bash') {
+              const code = [value].flat(Infinity).join('\\n')
+              if (flags.print) {
+                console.log(code)
+              } else {
+                import('child_process').then(({execSync}) => {
+                  execSync(code, { stdio: 'inherit', shell: true });
+                })
+              }
+            }
+          });
+        `;
+
+        const child = spawn('node', ['--experimental-default-type=module', '-e', jsCode], { stdio: 'inherit' });
+
+        child.on('exit', (code) => {
+          process.exit(code ?? 1);
+        });
       } catch (e) {
         throw new UserError(e)
       }

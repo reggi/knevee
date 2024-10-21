@@ -31,7 +31,7 @@
   },
   "prettier": "@reggi/prettier-config",
   "dependencies": {
-    "zx": "^8.1.9"
+    "which": "^5.0.0"
   },
   "devDependencies": {
     "@reggi/prettier-config": "^1.0.2",
