@@ -167,9 +167,6 @@ async function _commandCenter(_pointer: undefined | string, argv: string[]) {
     if (stdin && cmd.unshiftStdin) {
       clone._.unshift(...stdin)
     }
-    if (cmd.defaultCwdArgIfNone && clone._.length === 0) {
-      clone._.push(cwd)
-    }
     if (cmd.positionals.length !== 0) {
       const {_, ...rest} = clone
       const truncatedPositionals: string[] = _.slice(0, cmd.positionals.length)

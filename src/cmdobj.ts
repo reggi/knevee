@@ -48,7 +48,6 @@ type Mod = {
   stdin?: string | boolean
   output?: string | boolean
   unshiftStdin?: boolean
-  defaultCwdArgIfNone?: boolean
 }
 
 export class Cmdobj {
@@ -65,7 +64,6 @@ export class Cmdobj {
   stdin: string | boolean = 'loop'
   output: string | boolean = 'stdout'
   unshiftStdin: boolean = true
-  defaultCwdArgIfNone: boolean = false
   hasAuthoredFlags: boolean
 
   constructor(opt: {keys: string[]; path: string}, mod: Mod) {
@@ -143,10 +141,6 @@ export class Cmdobj {
 
     if (mod.unshiftStdin) {
       this.unshiftStdin = mod.unshiftStdin
-    }
-
-    if (mod.defaultCwdArgIfNone) {
-      this.defaultCwdArgIfNone = mod.defaultCwdArgIfNone
     }
   }
 
