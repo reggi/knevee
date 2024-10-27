@@ -1,0 +1,5 @@
+Usage: greeting-executablePassthrough <name>
+Say hello to someone
+Requires `echo` to be installed
+    --print Prints the bash command instead of running it
+    --help  Prints command help message

@@ -1,5 +1,0 @@
-Usage: hello-world 
-This is a test
-Requires `echo` to be installed
-    --print Prints the bash command instead of running it
-    --help  Prints command help message

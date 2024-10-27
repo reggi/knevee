@@ -95,6 +95,9 @@ describe('filterAndMatchItems', () => {
   it('Filter items with extra argv not in name', () => {
     const items = [{name: ['thailand', 'food', 'padthai']}, {name: ['thailand', 'moo-deng', 'date']}]
     const argv: string[] = ['thailand', 'moo-deng']
-    assert.deepEqual(filterAndMatchItems(items, argv), {match: undefined, results: [{name: ['thailand', 'moo-deng', 'date']}]})
+    assert.deepEqual(filterAndMatchItems(items, argv), {
+      match: undefined,
+      results: [{name: ['thailand', 'moo-deng', 'date']}],
+    })
   })
 })

@@ -36,8 +36,10 @@ export function splitArgv(argv: string[], splitCount: number = 1): string[][] {
 }
 
 export class UserError extends Error {
+  error: Error
   constructor(error: Error) {
     super(error.message)
+    this.error = error
   }
 }
 
@@ -47,10 +49,21 @@ export function config() {
   const runtime = __ ? _ : undefined
   const path = __ ? __.shift() : _.shift()
   const argv = __ ? __ : _
-  return {runtime, path: normalizePath({cwd, path}), argv, cwd}
+  if (!path) {
+    throw new Error('No path provided')
+  }
+  return {
+    ...(runtime ? {runtime} : {}),
+    path: normalizePath({cwd, path}),
+    argv,
+    cwd,
+  }
 }
 
-export function filterAndMatchItems<T extends {name: string[]}>(items: T[], argv: string[]): {match: T; results: T[]} {
+export function filterAndMatchItems<T extends {name: string[]}>(
+  items: T[],
+  argv: string[],
+): {match: T | undefined; results: T[]} {
   // Filter out argv elements that do not exist in any item's keys
   const relevantArgv = argv.filter(arg => items.some(item => item.name.includes(arg)))
   // Finding exact matches first

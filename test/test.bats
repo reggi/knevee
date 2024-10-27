@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bats
 
 setup() {
@@ -6,119 +7,659 @@ setup() {
 }
 
 save_and_compare_snapshot() {
-    snapshot="$snapshot_dir/$1.txt"
+    mkdir -p "$snapshot_dir/$1"
+    snapshot="$snapshot_dir/$1/$2.txt"
     if [ ! -f "$snapshot" ]; then
-        echo "$2" > "$snapshot"
+        echo "$3" > "$snapshot"
     fi
-
-    diff -u "$snapshot" <(echo "$2")
+    diff -u "$snapshot" <(echo "$3")
 }
 
-harness() {
-    file=$1
-    shift
-    c8 --reporter=none --clean=false tsx ./test/fixtures/${file}.ts "$@"
+
+@test "greeting-executablePassthrough-ts-c8-default-help" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-default-help "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "hello-world" {
-    run harness hello-world
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-default-missing_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-default-missing_args "$output"
+  [ "$status" -eq 1 ]
 }
 
-@test "hello-world-help" {
-    run harness hello-world --help
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-default-valid_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-default-valid_args "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "greeting" {
-    run harness greeting "Mr. Meowzies"
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-deno-help" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-deno-help "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "greeting-stdout" {
-    run bash -c "c8 --reporter=none --clean=false echo \"Mr. Echo\" | tsx ./test/fixtures/greeting.ts"
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-deno-missing_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
 }
 
-@test "greeting-extra-param" {
-    run harness greeting alpha beta
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
-    [ "$status" -ne 0 ]
+@test "greeting-executablePassthrough-ts-c8-deno-valid_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "greeting-missing-param" {
-    run harness greeting
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
-    [ "$status" -ne 0 ]
+@test "greeting-executablePassthrough-ts-c8-tsx-help" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-tsx-help "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "greeting-optional-param" {
-    run harness greeting-optional tea Greeting
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-tsx-missing_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
 }
 
-@test "greeting-missing-optional-param" {
-    run harness greeting-optional tea
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-tsx-valid_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "greeting-fails-without-name" {
-    run harness greeting
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
-    [ "$status" -ne 0 ]
+@test "greeting-executablePassthrough-ts-c8-node_ts-help" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-node_ts-help "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "starts-with-t-true" {
-    run harness starts-with-t tea
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-node_ts-missing_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-node_ts-missing_args "$output"
+  [ "$status" -eq 1 ]
 }
 
-@test "starts-with-t-false" {
-    run harness starts-with-t coffee
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-c8-node_ts-valid_args" {
+  run npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" c8-node_ts-valid_args "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "starts-with-t-true-emoji" {
-    run harness starts-with-t tea --emoji
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-deno-default-help" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-default-help "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "starts-with-t-false-emoji" {
-    run harness starts-with-t coffee --emoji
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-deno-default-missing_args" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-default-missing_args "$output"
+  [ "$status" -eq 1 ]
 }
 
-@test "starts-with-t-true-int" {
-    run harness starts-with-t tea --int
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-deno-default-valid_args" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-default-valid_args "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "starts-with-t-false-int" {
-    run harness starts-with-t coffee --int
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-deno-deno-help" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-deno-help "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "starts-with-t-lines" {
-    run bash -c "c8 --reporter=none --clean=false echo \"tea\ncoffee\" | tsx ./test/fixtures/starts-with-t.ts"
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-deno-deno-missing_args" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
 }
 
-@test "invalid-positional" {
-    run harness "$BATS_TEST_DESCRIPTION"
-    [ "$status" -ne 0 ]
+@test "greeting-executablePassthrough-ts-deno-deno-valid_args" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "invalid-rest-positional" {
-    run harness "$BATS_TEST_DESCRIPTION"
-    [ "$status" -ne 0 ]
+@test "greeting-executablePassthrough-ts-deno-tsx-help" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-tsx-help "$output"
+  [ "$status" -eq 0 ]
 }
 
-@test "invalid-optional-b4-required-positional" {
-    run harness "$BATS_TEST_DESCRIPTION"
-    [ "$status" -ne 0 ]
+@test "greeting-executablePassthrough-ts-deno-tsx-missing_args" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
 }
 
-@test "double-dash" {
-    run harness "$BATS_TEST_DESCRIPTION" meow -- woof
-    save_and_compare_snapshot "$BATS_TEST_DESCRIPTION" "$output"
+@test "greeting-executablePassthrough-ts-deno-tsx-valid_args" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-deno-node_ts-help" {
+  run deno run -A ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-node_ts-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-deno-node_ts-missing_args" {
+  run deno run -A ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-node_ts-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-ts-deno-node_ts-valid_args" {
+  run deno run -A ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" deno-node_ts-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-default-help" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-default-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-default-missing_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-default-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-default-valid_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-default-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-deno-help" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-deno-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-deno-missing_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-deno-valid_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-tsx-help" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-tsx-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-tsx-missing_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-tsx-valid_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-node_ts-help" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts --help
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-node_ts-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-node_ts-missing_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-node_ts-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-ts-node_ts-node_ts-valid_args" {
+  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/greeting-executablePassthrough.ts John
+  save_and_compare_snapshot "greeting-executablePassthrough-ts" node_ts-node_ts-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-default-help" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-default-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-default-missing_args" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-default-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-default-valid_args" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-default-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-deno-help" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-deno-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-deno-missing_args" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-deno-valid_args" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-tsx-help" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-tsx-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-tsx-missing_args" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-tsx-valid_args" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-node-help" {
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-node-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-node-missing_args" {
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-node-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-deno-node-valid_args" {
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" deno-node-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-default-help" {
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-default-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-default-missing_args" {
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-default-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-default-valid_args" {
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-default-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-deno-help" {
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-deno-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-deno-missing_args" {
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-deno-valid_args" {
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-tsx-help" {
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-tsx-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-tsx-missing_args" {
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-tsx-valid_args" {
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-node-help" {
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-node-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-node-missing_args" {
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-node-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-tsx-node-valid_args" {
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" tsx-node-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-default-help" {
+  run node ./dist/bin/knevee.js test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-default-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-default-missing_args" {
+  run node ./dist/bin/knevee.js test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-default-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-default-valid_args" {
+  run node ./dist/bin/knevee.js test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-default-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-deno-help" {
+  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-deno-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-deno-missing_args" {
+  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-deno-valid_args" {
+  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-tsx-help" {
+  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-tsx-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-tsx-missing_args" {
+  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-tsx-valid_args" {
+  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-node-help" {
+  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-executablePassthrough.mjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-node-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-node-missing_args" {
+  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-executablePassthrough.mjs
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-node-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-mjs-node_build_esm-node-valid_args" {
+  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-executablePassthrough.mjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-mjs" node_build_esm-node-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-default-help" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-default-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-default-missing_args" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-default-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-default-valid_args" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-default-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-deno-help" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-deno-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-deno-missing_args" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-deno-valid_args" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-tsx-help" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-tsx-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-tsx-missing_args" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-tsx-valid_args" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-node-help" {
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-node-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-node-missing_args" {
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-node-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-deno-node-valid_args" {
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" deno-node-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-default-help" {
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-default-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-default-missing_args" {
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-default-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-default-valid_args" {
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-default-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-deno-help" {
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-deno-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-deno-missing_args" {
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-deno-valid_args" {
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-tsx-help" {
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-tsx-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-tsx-missing_args" {
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-tsx-valid_args" {
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-node-help" {
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-node-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-node-missing_args" {
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-node-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-tsx-node-valid_args" {
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" tsx-node-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-default-help" {
+  run node ./dist/bin/knevee.cjs test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-default-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-default-missing_args" {
+  run node ./dist/bin/knevee.cjs test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-default-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-default-valid_args" {
+  run node ./dist/bin/knevee.cjs test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-default-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-deno-help" {
+  run node ./dist/bin/knevee.cjs deno eval -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-deno-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-deno-missing_args" {
+  run node ./dist/bin/knevee.cjs deno eval -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-deno-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-deno-valid_args" {
+  run node ./dist/bin/knevee.cjs deno eval -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-deno-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-tsx-help" {
+  run node ./dist/bin/knevee.cjs tsx -e -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-tsx-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-tsx-missing_args" {
+  run node ./dist/bin/knevee.cjs tsx -e -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-tsx-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-tsx-valid_args" {
+  run node ./dist/bin/knevee.cjs tsx -e -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-tsx-valid_args "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-node-help" {
+  run node ./dist/bin/knevee.cjs node -e -- test/fixtures/greeting-executablePassthrough.cjs --help
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-node-help "$output"
+  [ "$status" -eq 0 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-node-missing_args" {
+  run node ./dist/bin/knevee.cjs node -e -- test/fixtures/greeting-executablePassthrough.cjs
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-node-missing_args "$output"
+  [ "$status" -eq 1 ]
+}
+
+@test "greeting-executablePassthrough-cjs-node_build_cjs-node-valid_args" {
+  run node ./dist/bin/knevee.cjs node -e -- test/fixtures/greeting-executablePassthrough.cjs John
+  save_and_compare_snapshot "greeting-executablePassthrough-cjs" node_build_cjs-node-valid_args "$output"
+  [ "$status" -eq 0 ]
 }

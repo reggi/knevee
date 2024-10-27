@@ -1,4 +1,4 @@
-import {knevee} from '../src/index.ts'
+import {executablePassthrough} from '../src/index.ts'
 import {exec} from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -31,7 +31,7 @@ export const markdown2json = async (filePath: string): Promise<void> => {
   console.log(`Processed commands for '${filePath}'`)
 }
 
-knevee({
+export const command = executablePassthrough({
   filename: import.meta.filename,
   name: 'markdown2json',
   description: 'Converts Markdown table to json',

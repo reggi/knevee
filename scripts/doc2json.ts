@@ -1,4 +1,4 @@
-import {knevee} from '../src'
+import {executablePassthrough} from '../src/index.ts'
 
 export const doc2json = ast => {
   const data = JSON.parse(ast)
@@ -22,7 +22,7 @@ export const doc2json = ast => {
   })
 }
 
-knevee({
+export const command = executablePassthrough({
   filename: import.meta.filename,
   name: 'doc2json',
   description: 'Converts deno doc ast to simler json object',

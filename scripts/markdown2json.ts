@@ -1,4 +1,4 @@
-import {knevee} from '../src/index.ts'
+import {executablePassthrough} from '../src/index.ts'
 
 export const markdown2Json = table => {
   table = table.trim()
@@ -21,7 +21,7 @@ export const markdown2Json = table => {
   })
 }
 
-knevee({
+export const command = executablePassthrough({
   filename: import.meta.filename,
   name: 'markdown2json',
   description: 'Converts Markdown table to json',

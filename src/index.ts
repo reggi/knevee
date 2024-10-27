@@ -1,4 +1,6 @@
 import {Command} from './Command.ts'
+import {type UserModuleOptions} from './options.ts'
 
-export const knevee = Command.command
+export type KneveeOptions = UserModuleOptions
+export const executablePassthrough = Command.executablePassthrough
 export default Command.command

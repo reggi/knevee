@@ -1,4 +1,5 @@
-import {knevee} from '../src'
+#!/usr/bin/env tsx ./src/bin/knevee.ts
+import {executablePassthrough} from '../src/index.ts'
 import fs from 'node:fs/promises'
 
 const buildHandleValue = async () => {
@@ -9,7 +10,7 @@ const buildHandleValue = async () => {
   await fs.writeFile('./src/utils/value-string.ts', main, 'utf8')
 }
 
-knevee({
+export const command = executablePassthrough({
   filename: import.meta.filename,
   name: 'build-handle-value',
   description: 'Converts utils/value.ts to a string for subprocess.',

@@ -1,11 +1,16 @@
 import {Exec} from './Exec.ts'
 import {ExecSub} from './ExecSub.ts'
-import {type ModuleOptions} from './options.ts'
 import {type PositionalType, Positionals} from './Positionals.ts'
+import {
+  defaultModuleOptions,
+  type RequiredModuleOptions,
+  type ModuleOptions,
+  type UserModuleOptions,
+} from './options.ts'
 import {type FlagOptions, getFlags} from './utils/flags.ts'
 import {type StdinLoopType, stdinLoop, validateStdinType} from './utils/stdin.ts'
 import {getTable} from './utils/table.ts'
-import {config, resolveDirectory, resolveFile, resolvePath} from './utils/utils.ts'
+import {config, normalizeArrayOfStrings, resolveDirectory, resolveFile, resolvePath} from './utils/utils.ts'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import which from 'which'
@@ -48,7 +53,6 @@ export type ParameterOnly = {
 
 export type GlobalOptions = {
   path?: string
-  runtime?: string[]
 }
 
 export type OutputType = 'bool' | 'json' | 'lines' | `log` | 'stdout' | 'bash' | false
@@ -58,114 +62,78 @@ export function validateOutputType(type: any): type is OutputType {
   return validOptions.includes(type)
 }
 
-export class Command {
-  default: (...args: any) => any
-  dependencies: string[] = []
-  description: string = ''
-  flagsOption?: FlagOptions
-  name: string[] = []
-  output: OutputType = 'log'
+export class Command implements RequiredModuleOptions {
+  name: string[]
+  description: string
+  dependencies: string[]
   positionals: Positionals
-  positionalType: PositionalType = 'positionalAsObject'
-  stdin: StdinLoopType = false
-
-  useStrictFlags: boolean = true
-  useUnshiftStdin: boolean = true
-  useAllSettled: boolean = false
-  useArgsObject: boolean = false
-
+  flags: FlagOptions
+  default: (...args: any) => any
+  useStrictFlags: boolean
+  useUnshiftStdin: boolean
+  useAllSettled: boolean
+  useArgsObject: boolean
+  output: OutputType
+  stdin: StdinLoopType
+  positionalType: PositionalType
+  runtime: string[]
   path?: string
-  runtime: string[] = [
-    'node',
-    '--experimental-strip-types',
-    '--experimental-detect-module',
-    '--disable-warning=MODULE_TYPELESS_PACKAGE_JSON',
-    '--disable-warning=ExperimentalWarning',
-    '-e',
-  ]
+  constructor(_mod: ModuleOptions & {path?: string}) {
+    const mod = {...defaultModuleOptions, ..._mod}
 
-  constructor(mod: ModuleOptions & GlobalOptions) {
-    if (mod.name) {
-      if (Array.isArray(mod.name)) {
-        this.name = mod.name
-      } else if (typeof mod.name === 'string') {
-        this.name = [mod.name]
-      } else {
-        throw new Error(`Invalid name: ${mod.name}`)
-      }
+    this.path = mod.path
+
+    if (this.path && !path.isAbsolute(this.path)) {
+      throw new Error('path must be absolute')
     }
 
-    if (mod.path) {
-      if (!path.isAbsolute(mod.path)) {
-        throw new Error(`Path must be absolute: ${mod.path}`)
-      }
-      if (!this.name.length) {
-        const cmdName = path.basename(mod.path, path.extname(mod.path))
-        this.name = [cmdName]
-      }
-      this.path = mod.path
+    this.runtime = mod.runtime
+    this.name = Array.isArray(mod.name) ? mod.name : [mod.name]
+
+    if (this.path && !this.name.length) {
+      this.name = [path.basename(this.path, path.extname(this.path))]
     }
 
     if (!this.name.length) {
-      throw new Error('No name provided')
+      throw new Error('Command must have a name')
     }
-
-    if (mod.description) {
-      this.description = mod.description
-    }
-
-    this.positionals = new Positionals(mod.positionals)
-
-    if (mod.dependencies) {
-      const d = mod.dependencies
-      this.dependencies = (Array.isArray(d) ? d : (d?.split(' ') ?? [])).map(v => v.trim())
-    }
-
-    if (mod.useStrictFlags) {
-      this.useStrictFlags = mod.useStrictFlags
-    }
-
-    if (!mod.default) {
-      throw new Error(`No default function provided in ${this.path}`)
-    }
-
-    this.default = mod.default
-
-    this.flagsOption = {
+    this.description = mod.description
+    this.dependencies = normalizeArrayOfStrings(mod.dependencies)
+    this.positionals = mod.positionals instanceof Positionals ? mod.positionals : new Positionals(mod.positionals)
+    this.flags = {
       ...(mod.flags ?? {}),
       ...(mod.output === 'bash' ? bashFlags : {}),
       ...(mod.output === 'bool' ? boolFlags : {}),
       ...helpFlags,
     }
 
-    if (typeof mod.stdin !== 'undefined') {
-      if (validateStdinType(mod.stdin)) {
-        this.stdin = mod.stdin
-      } else {
-        throw new Error(`Invalid stdin: ${mod.stdin}`)
-      }
+    if (!mod.default) {
+      throw new Error('Command must have a default function')
     }
 
-    if (typeof mod.output !== 'undefined') {
-      if (validateOutputType(mod.output)) {
-        this.output = mod.output
-      } else {
-        throw new Error(`Invalid output: ${mod.output}`)
-      }
+    this.default = mod.default
+    this.useAllSettled = mod.useAllSettled
+    this.useArgsObject = mod.useArgsObject
+    this.useStrictFlags = mod.useStrictFlags
+    this.useUnshiftStdin = mod.useUnshiftStdin
+
+    if (!validateStdinType(mod.stdin)) {
+      throw new Error(`Invalid stdin: ${mod.stdin}`)
     }
 
-    if (typeof mod.positionalType !== 'undefined') {
-      this.positionalType = mod.positionalType
+    this.stdin = mod.stdin
+
+    if (!validateOutputType(mod.output)) {
+      throw new Error(`Invalid output: ${mod.output}`)
     }
-    if (typeof mod.useUnshiftStdin !== 'undefined') {
-      this.useUnshiftStdin = mod.useUnshiftStdin
+
+    this.output = mod.output
+
+    if (!Positionals.validatePositionalType(mod.positionalType)) {
+      throw new Error(`Invalid positionalType: ${mod.positionalType}`)
     }
-    if (typeof mod.useArgsObject !== 'undefined') {
-      this.useArgsObject = mod.useArgsObject
-    }
-    if (typeof mod.runtime !== 'undefined') {
-      this.runtime = mod.runtime
-    }
+
+    this.positionalType = mod.positionalType
   }
 
   get fullname() {
@@ -180,7 +148,7 @@ export class Command {
       cmd.dependencies.length ? `Requires \`${cmd.dependencies.join(',')}\` to be installed` : '',
       ...[
         ...getTable(
-          Object.entries(cmd.flagsOption).map(([flag, deets]) => {
+          Object.entries(cmd.flags).map(([flag, deets]) => {
             const type = deets.type === 'boolean' ? '' : ` <${deets.type}>`
             return [`--${flag} ${type}`.trim(), deets.description || '']
           }),
@@ -211,7 +179,7 @@ export class Command {
     const cmd = this
     const flags = getFlags({
       args: argv,
-      options: cmd.flagsOption,
+      options: cmd.flags,
       strict: cmd.useStrictFlags,
       allowPositionals: cmd.positionals.hasRules,
     })
@@ -248,8 +216,11 @@ export class Command {
     return new ExecSub(this).run(argv)
   }
 
-  static async init(opt: GlobalOptions & {name?: string | string[]}) {
+  static async init(opt: {path: string; name?: string | string[]}) {
     const mod = await import(opt.path)
+    if (mod.command) {
+      return new Command({...mod.command, ...opt})
+    }
     return new Command({...mod, ...opt})
   }
 
@@ -278,27 +249,27 @@ export class Command {
   }
 
   static command<T extends (...args: any[]) => any>(
-    mod: ModuleOptions & ParameterOnly & {argv?: string[]; default?: T},
+    mod: UserModuleOptions & ParameterOnly & {default?: T},
     handler?: T,
   ): () => void {
-    const cmd = new Command({...mod, ...(handler ? {default: handler} : {})})
-    const sub = () => cmd.exec(mod.argv || process.argv.slice(2))
-    if (typeof mod.filename !== 'undefined' && mod.filename === process.argv[1]) {
-      sub()
+    const sub = () => {
+      const cmd = new Command({...mod, ...(handler ? {default: handler} : {})})
+      cmd.exec(process.argv.slice(2))
     }
+    if (typeof mod.filename !== 'undefined' && mod.filename === process.argv[1]) sub()
     return sub
   }
 
-  // static execute<T extends (...args: any[]) => any>(
-  //   mod: ModuleOptions & ParameterOnly & {argv?: string[]; default?: T},
-  //   handler?: T,
-  // ): [T, () => void] {
-  //   const cmd = new Command({...mod, ...(handler ? {default: handler} : {})})
-  //   const sub = () => cmd.exec(mod.argv || process.argv.slice(2))
-  //   const _handler = mod.default || handler
-  //   if (typeof mod.filename !== 'undefined' && mod.filename === process.argv[1]) {
-  //     sub()
-  //   }
-  //   return [_handler, sub]
-  // }
+  static executablePassthrough<T extends (...args: any[]) => any>(
+    mod: UserModuleOptions & ParameterOnly & {default?: T},
+    handler?: T,
+  ) {
+    const input = {...mod, ...(handler ? {default: handler} : {})}
+    const executable = () => {
+      const cmd = new Command(input)
+      cmd.exec(process.argv.slice(2))
+    }
+    if (typeof mod.filename !== 'undefined' && mod.filename === process.argv[1]) executable()
+    return {...input, executable}
+  }
 }

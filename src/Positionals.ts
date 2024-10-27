@@ -1,5 +1,7 @@
 import {normalizeArrayOfStrings, splitArgv} from './utils/utils.ts'
 
+type NakedItem = {value: string; rest?: boolean}
+
 class PositionalRules {
   naked: {value: string; rest?: boolean}[]
   private rules: string[]
@@ -8,9 +10,9 @@ class PositionalRules {
   constructor(rules: string | string[] = []) {
     rules = normalizeArrayOfStrings(rules)
     let hasRestPositional = false
-    let requiredPositionals = []
+    let requiredPositionals: string[] = []
     let hasOptional = false
-    let naked = []
+    let naked: NakedItem[] = []
     for (let i = 0; i < rules.length; i++) {
       const positional = rules[i]
       const optional = positional.startsWith('[') && positional.endsWith(']')
@@ -44,7 +46,7 @@ class PositionalRules {
   validate(argv: string[]) {
     const {rules, requiredPositionals, hasRestPositional} = this
     const _releventPositionals: string[] = argv.slice(0, rules.length)
-    const releventPositionals = _releventPositionals.filter(v => v !== undefined)
+    const releventPositionals: any[] = _releventPositionals.filter(v => v !== undefined)
     if (requiredPositionals.length > releventPositionals.length) {
       const missingPositionals = requiredPositionals.slice(releventPositionals.length)
       throw new Error(`Missing required positional arguments: ${missingPositionals.join(', ')}`)
@@ -79,7 +81,7 @@ export class Positionals {
   hasRules: boolean
   private instances: PositionalRules[]
   private numberOfDoubleDashes: number
-  constructor(rules: undefined | string | string[]= []) {
+  constructor(rules: undefined | string | string[] = []) {
     if (typeof rules === 'undefined') {
       this.rules = []
     } else {
@@ -106,7 +108,7 @@ export class Positionals {
     return this.processInstances(argv, (instance, args) => instance.asObjects(args))
   }
   asNamedObject(argv: string[]) {
-    const naked = []
+    const naked: NakedItem[] = []
     const obj = this.processInstances(argv, (instance, args) => {
       // Check for duplicates within the current instance
       const duplicateValues = instance.naked

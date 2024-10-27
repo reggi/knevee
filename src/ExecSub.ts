@@ -15,7 +15,12 @@ export class ExecSub extends ExecAbstract {
       valueString,
       `const flags = ${JSON.stringify(flags)};`,
       `import('${cmd.path}').then(cmd => {`,
-      `  return cmd.default(...${JSON.stringify(args)}.map(v => v === null ? undefined : v))`,
+      `  if (typeof cmd.command.default !== 'undefined') {`,
+      `    return cmd.command.default(...${JSON.stringify(args)}.map(v => v === null ? undefined : v))`,
+      `  }`,
+      `  if (typeof cmd.default !== 'undefined') {`,
+      `    return cmd.default(...${JSON.stringify(args)}.map(v => v === null ? undefined : v))`,
+      `  }`,
       `}).then(value => {`,
       `  return handleValue('${cmd.output}', value, flags)`,
       `})`,
@@ -28,6 +33,7 @@ export class ExecSub extends ExecAbstract {
     const jsCode = await this.execString(args, flags)
     const runtime = [...cmd.runtime]
     const main = runtime.shift()
+    if (!main) throw new Error('No runtime provided')
     const child = spawn(main, [...runtime, jsCode], {stdio: 'inherit'})
     child.on('exit', code => {
       process.exit(code ?? 1)

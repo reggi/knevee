@@ -14,34 +14,35 @@
   },
   "bin": {
     "knevee": "dist/bin/knevee.cjs",
-    "knevee-file": "dist/bin/knevee-file.cjs",
-    "knevee-dir": "dist/bin/knevee-dir.cjs"
+    "knevee-dir": "dist/bin/knevee-dir.cjs",
+    "knevee-file": "dist/bin/knevee-file.cjs"
   },
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
-    "build-handle-value": "tsx ./scripts/build-handle-value.ts",
-    "build": "npm run build-handle-value && tsup --clean ./src/index.ts ./src/bin/knevee.ts ./src/bin/knevee-dir.ts ./src/bin/knevee-file.ts --format esm,cjs --dts",
-    "build:watch": "npm run build -- --watch",
+    "build": "npm run build:handle-value && npm run build:tsup && npm run build:readme && npm run build:bats",
+    "build:handle-value": "tsx ./scripts/build-handle-value.ts",
+    "build:readme": "npm run script:md-include README.md",
+    "build:tsup": " tsup --clean ./src/index.ts ./src/bin/knevee.ts ./src/bin/knevee-dir.ts ./src/bin/knevee-file.ts --format esm,cjs --dts",
+    "build:bats": "cat ./test/spec.json | tsx ./scripts/batgen.ts > ./test/test.bats",
+    "build:tsup:watch": "npm run build:tsup -- --watch",
+    "doc-options-json": "deno doc --json ./src/options.ts",
+    "doc-options-md": "npm -s run doc-options-json | npm -s run script:doc2json | npm -s run script:json2markdown",
     "prepare": "npm run build",
     "reinstall": "npm run build && npm i . -g",
-    "style": "prettier --check .",
-    "style:fix": "prettier --write .",
-    "test:node": "node --test --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  \"**/*.test.ts\"",
-    "xtest:snap": "node --test-update-snapshots --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  **/*.test.ts",
-    "test": "rm -rf ./coverage && ./test/bats/bin/bats test/test.bats && npm run report",
-    "test:snap": "rm -rf ./snapshots && npm run test",
-    "report": "npx c8 report",
     "script:build-handle-value": "tsx ./scripts/build-handle-value.ts",
     "script:doc2json": "tsx ./scripts/doc2json.ts",
     "script:json2markdown": "tsx ./scripts/json2markdown.ts",
     "script:markdown2json": "tsx ./scripts/markdown2json.ts",
     "script:md-include": "tsx ./scripts/md-include.ts",
-    "doc-options-json": "deno doc --json ./src/options.ts",
-    "doc-options-md": "npm -s run doc-options-json | npm -s run script:doc2json | npm -s run script:json2markdown",
-    "build-readme": "npm run script:md-include README.md"
+    "style": "prettier --check .",
+    "style:fix": "prettier --write .",
+    "test:bats": "rm -rf ./coverage && npm run build:bats && ./test/bats/bin/bats test/test.bats",
+    "test:report": "npx c8 report",
+    "test:bats:snap": "rm -rf ./snapshots && npm run test:bats",
+    "test:node": "node --test --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  \"**/*.test.ts\""
   },
   "prettier": "@reggi/prettier-config",
   "dependencies": {

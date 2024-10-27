@@ -50,7 +50,7 @@ export class ModuleOptions {
    * - `positionalNamedObject` - Uses name in positionals as key in args.
    * - `positionalAsArray` - Uses escalating `_` as the key separating `--` in positionals.
    */
-  positionalType?: PositionalType | string  = 'positionalAsObject'
+  positionalType?: PositionalType | string = 'positionalAsObject'
 
   /**
    * Determines if the module should read from stdin and how. (__Defaults to `false`__)
@@ -60,9 +60,9 @@ export class ModuleOptions {
    * - `loopLines` - Reads from stdin as a string and loops over each line.
    * - `loop` - Reads stdin and does `loopJson` with backup to `loopLines`.
    */
-  stdin?: StdinLoopType | string | boolean  = false
+  stdin?: StdinLoopType | string | boolean = false
 
-  /** 
+  /**
    * Set the javscript runtime to evaluate subprocesses under, must expect appending js string.
    * `node`
    * `--experimental-strip-types`
@@ -79,8 +79,16 @@ export class ModuleOptions {
     '--disable-warning=ExperimentalWarning',
     '-e',
   ]
-
 }
 
 export type RequiredModuleOptions = Required<ModuleOptions>
 export const defaultModuleOptions: RequiredModuleOptions = {...new ModuleOptions()} as RequiredModuleOptions
+
+export interface UserModuleOptions extends ModuleOptions {
+  positionals?: string | string[]
+  output?: OutputType
+  positionalType?: PositionalType
+  stdin?: StdinLoopType
+  default?: (...args: any) => any
+  filename?: string
+}
