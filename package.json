@@ -22,7 +22,7 @@
     "src"
   ],
   "scripts": {
-    "build": "npm run build:handle-value && npm run build:tsup && npm run build:readme && npm run build:bats",
+    "build": "npm run build:handle-value && npm run build:tsup && npm run build:readme && npm run build:bats && npm run style:fix",
     "build:handle-value": "tsx ./scripts/build-handle-value.ts",
     "build:readme": "npm run script:md-include README.md",
     "build:tsup": " tsup --clean ./src/index.ts ./src/bin/knevee.ts ./src/bin/knevee-dir.ts ./src/bin/knevee-file.ts --format esm,cjs --dts",
@@ -40,9 +40,10 @@
     "style": "prettier --check .",
     "style:fix": "prettier --write .",
     "test:bats": "rm -rf ./coverage && npm run build:bats && ./test/bats/bin/bats test/test.bats",
-    "test:report": "npx c8 report",
+    "test:report": "c8 report",
     "test:bats:snap": "rm -rf ./snapshots && npm run test:bats",
-    "test:node": "node --test --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  \"**/*.test.ts\""
+    "test:node": "c8 node --test --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  \"**/*.test.ts\"",
+    "test": "npm run test:bats && npm run test:node"
   },
   "prettier": "@reggi/prettier-config",
   "dependencies": {
@@ -57,7 +58,6 @@
     "c8": "^10.1.2",
     "nyc": "^17.1.0",
     "source-map-support": "^0.5.21",
-    "ts-node": "^10.9.2",
     "tsup": "^8.3.0",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"

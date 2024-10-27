@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx ./src/bin/knevee.ts
-import test from 'node:test'
 import {executablePassthrough} from '../src/index.ts'
+import test from 'node:test'
 
 const prefix = `
 #!/usr/bin/env bats
