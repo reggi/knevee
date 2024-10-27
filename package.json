@@ -30,7 +30,6 @@
     "build:tsup:watch": "npm run build:tsup -- --watch",
     "doc-options-json": "deno doc --json ./src/options.ts",
     "doc-options-md": "npm -s run doc-options-json | npm -s run script:doc2json | npm -s run script:json2markdown",
-    "prepare": "npm run build",
     "reinstall": "npm run build && npm i . -g",
     "script:build-handle-value": "tsx ./scripts/build-handle-value.ts",
     "script:doc2json": "tsx ./scripts/doc2json.ts",
