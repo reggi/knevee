@@ -8,34 +8,57 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "bin": {
-    "knevee": "dist/esm/bin.js"
+    "knevee": "dist/bin/knevee.cjs",
+    "knevee-file": "dist/bin/knevee-file.cjs",
+    "knevee-dir": "dist/bin/knevee-dir.cjs"
   },
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
-    "build": "npm run build:cjs && npm run build:esm && chmod +x ./dist/esm/bin.js && chmod +x ./dist/cjs/bin.js",
-    "build:cjs": "tsc --module commonjs --outDir ./dist/cjs",
-    "build:esm": "tsc --module esnext --outDir ./dist/esm",
+    "build-handle-value": "tsx ./scripts/build-handle-value.ts",
+    "build": "npm run build-handle-value && tsup --clean ./src/index.ts ./src/bin/knevee.ts ./src/bin/knevee-dir.ts ./src/bin/knevee-file.ts --format esm,cjs --dts",
+    "build:watch": "npm run build -- --watch",
     "prepare": "npm run build",
     "reinstall": "npm run build && npm i . -g",
     "style": "prettier --check .",
     "style:fix": "prettier --write .",
-    "test": "node --test --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  \"**/*.test.ts\""
+    "test:node": "node --test --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  \"**/*.test.ts\"",
+    "xtest:snap": "node --test-update-snapshots --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  **/*.test.ts",
+    "test": "rm -rf ./coverage && ./test/bats/bin/bats test/test.bats && npm run report",
+    "test:snap": "rm -rf ./snapshots && npm run test",
+    "report": "npx c8 report",
+    "script:build-handle-value": "tsx ./scripts/build-handle-value.ts",
+    "script:doc2json": "tsx ./scripts/doc2json.ts",
+    "script:json2markdown": "tsx ./scripts/json2markdown.ts",
+    "script:markdown2json": "tsx ./scripts/markdown2json.ts",
+    "script:md-include": "tsx ./scripts/md-include.ts",
+    "doc-options-json": "deno doc --json ./src/options.ts",
+    "doc-options-md": "npm -s run doc-options-json | npm -s run script:doc2json | npm -s run script:json2markdown",
+    "build-readme": "npm run script:md-include README.md"
   },
   "prettier": "@reggi/prettier-config",
   "dependencies": {
     "which": "^5.0.0"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@reggi/prettier-config": "^1.0.2",
+    "@swc/core": "^1.7.39",
     "@types/node": "^22.7.7",
+    "@types/which": "^3.0.4",
+    "c8": "^10.1.2",
+    "nyc": "^17.1.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.0",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
 }

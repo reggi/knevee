@@ -1,101 +1,100 @@
-import {filterItems} from '../src/filter.ts'
+import {filterAndMatchItems} from '../src/utils/utils.ts'
 import {strict as assert} from 'node:assert'
 import {describe, it} from 'node:test'
 
-// Tests
-describe('filterItems', () => {
+describe('filterAndMatchItems', () => {
   it('Filter items with single exact argv', () => {
     const items = [
-      {keys: ['hello', 'world']},
-      {keys: ['hello', 'blue']},
-      {keys: ['hello']},
-      {keys: []},
-      {keys: ['green']},
+      {name: ['hello', 'world']},
+      {name: ['hello', 'blue']},
+      {name: ['hello']},
+      {name: []},
+      {name: ['green']},
     ]
     const argv: string[] = ['hello']
-    assert.deepEqual(filterItems(items, argv), {match: {keys: ['hello']}, results: []})
+    assert.deepEqual(filterAndMatchItems(items, argv), {match: {name: ['hello']}, results: []})
   })
 
   it('Filter items with single exact argv', () => {
-    const items = [{keys: ['hello', 'world']}, {keys: ['hello', 'blue']}, {keys: []}, {keys: ['green']}]
+    const items = [{name: ['hello', 'world']}, {name: ['hello', 'blue']}, {name: []}, {name: ['green']}]
     const argv: string[] = ['hello']
-    assert.deepEqual(filterItems(items, argv), {
+    assert.deepEqual(filterAndMatchItems(items, argv), {
       match: undefined,
-      results: [{keys: ['hello', 'world']}, {keys: ['hello', 'blue']}],
+      results: [{name: ['hello', 'world']}, {name: ['hello', 'blue']}],
     })
   })
 
   it('Filter items with multiple argv', () => {
     const items = [
-      {keys: ['hello', 'world']},
-      {keys: ['hello', 'blue']},
-      {keys: ['hello']},
-      {keys: []},
-      {keys: ['green']},
+      {name: ['hello', 'world']},
+      {name: ['hello', 'blue']},
+      {name: ['hello']},
+      {name: []},
+      {name: ['green']},
     ]
     const argv: string[] = ['hello', 'blue']
-    assert.deepEqual(filterItems(items, argv), {match: {keys: ['hello', 'blue']}, results: []})
+    assert.deepEqual(filterAndMatchItems(items, argv), {match: {name: ['hello', 'blue']}, results: []})
   })
 
   it('Filter items with empty argv', () => {
     const items = [
-      {keys: ['hello', 'world']},
-      {keys: ['hello', 'blue']},
-      {keys: ['hello']},
-      {keys: []},
-      {keys: ['green']},
+      {name: ['hello', 'world']},
+      {name: ['hello', 'blue']},
+      {name: ['hello']},
+      {name: []},
+      {name: ['green']},
     ]
     const argv: string[] = []
-    assert.deepEqual(filterItems(items, argv), {match: {keys: []}, results: []})
+    assert.deepEqual(filterAndMatchItems(items, argv), {match: {name: []}, results: []})
   })
 
   it('Filter items with unrelated argv', () => {
     const items = [
-      {keys: ['hello', 'world']},
-      {keys: ['hello', 'blue']},
-      {keys: ['hello']},
-      {keys: []},
-      {keys: ['green']},
+      {name: ['hello', 'world']},
+      {name: ['hello', 'blue']},
+      {name: ['hello']},
+      {name: []},
+      {name: ['green']},
     ]
     const argv: string[] = ['green']
-    assert.deepEqual(filterItems(items, argv), {match: {keys: ['green']}, results: []})
+    assert.deepEqual(filterAndMatchItems(items, argv), {match: {name: ['green']}, results: []})
   })
 
-  it('Filter items with extra argv not in keys', () => {
+  it('Filter items with extra argv not in name', () => {
     const items = [
-      {keys: ['hello', 'world', 'woof']},
-      {keys: ['hello', 'world', 'meow']},
-      {keys: ['hello', 'blue']},
-      {keys: ['hello']},
-      {keys: []},
-      {keys: ['green']},
+      {name: ['hello', 'world', 'woof']},
+      {name: ['hello', 'world', 'meow']},
+      {name: ['hello', 'blue']},
+      {name: ['hello']},
+      {name: []},
+      {name: ['green']},
     ]
     const argv: string[] = ['hello', 'world', '--ducks']
-    assert.deepEqual(filterItems(items, argv), {
+    assert.deepEqual(filterAndMatchItems(items, argv), {
       match: undefined,
-      results: [{keys: ['hello', 'world', 'woof']}, {keys: ['hello', 'world', 'meow']}],
+      results: [{name: ['hello', 'world', 'woof']}, {name: ['hello', 'world', 'meow']}],
     })
   })
 
-  it('Filter items with extra argv not in keys', () => {
+  it('Filter items with extra argv not in name', () => {
     const items = [
-      {keys: ['hello', 'world', 'woof']},
-      {keys: ['hello', 'world', 'meow']},
-      {keys: ['hello', 'blue']},
-      {keys: ['hello']},
-      {keys: []},
-      {keys: ['green']},
+      {name: ['hello', 'world', 'woof']},
+      {name: ['hello', 'world', 'meow']},
+      {name: ['hello', 'blue']},
+      {name: ['hello']},
+      {name: []},
+      {name: ['green']},
     ]
     const argv: string[] = ['hello', 'world', 'ducks']
-    assert.deepEqual(filterItems(items, argv), {
+    assert.deepEqual(filterAndMatchItems(items, argv), {
       match: undefined,
-      results: [{keys: ['hello', 'world', 'woof']}, {keys: ['hello', 'world', 'meow']}],
+      results: [{name: ['hello', 'world', 'woof']}, {name: ['hello', 'world', 'meow']}],
     })
   })
 
-  it('Filter items with extra argv not in keys', () => {
-    const items = [{keys: ['thailand', 'food', 'padthai']}, {keys: ['thailand', 'moo-deng', 'date']}]
+  it('Filter items with extra argv not in name', () => {
+    const items = [{name: ['thailand', 'food', 'padthai']}, {name: ['thailand', 'moo-deng', 'date']}]
     const argv: string[] = ['thailand', 'moo-deng']
-    assert.deepEqual(filterItems(items, argv), {match: undefined, results: [{keys: ['thailand', 'moo-deng', 'date']}]})
+    assert.deepEqual(filterAndMatchItems(items, argv), {match: undefined, results: [{name: ['thailand', 'moo-deng', 'date']}]})
   })
 })
