@@ -1,0 +1,5 @@
+Usage: optional <name> [greeting]
+An example with an optional argument
+Requires `echo` to be installed
+    --print Prints the bash command instead of running it
+    --help  Prints command help message

@@ -14,74 +14,8 @@ save_and_compare_snapshot() {
     diff -u "$snapshot" <(echo "$3")
 }
 
-@test "invalid-positional-ts-c8node-default-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" c8node-default-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-c8node-deno-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts deno eval -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" c8node-deno-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-c8node-tsx-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts tsx -e -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" c8node-tsx-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-c8node-node-ts-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" c8node-node-ts-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-deno-default-spread" {
-  run deno run -A ./src/bin/knevee.ts test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" deno-default-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-deno-deno-spread" {
-  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" deno-deno-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-deno-tsx-spread" {
-  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" deno-tsx-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-deno-node-ts-spread" {
-  run deno run -A ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" deno-node-ts-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-node-ts-default-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" node-ts-default-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-node-ts-deno-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts deno eval -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" node-ts-deno-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-node-ts-tsx-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts tsx -e -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" node-ts-tsx-spread "$output"
-  [ "$status" -eq 1 ]
-}
-
-@test "invalid-positional-ts-node-ts-node-ts-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/invalid-positional.ts
-  save_and_compare_snapshot "invalid-positional-ts" node-ts-node-ts-spread "$output"
+@test "invalid-positional-ts-c8tsx-default-spread" {
+  run npx -s c8 --reporter=none --clean=false npx -s tsx ./src/bin/knevee.ts test/fixtures/invalid-positional.ts
+  save_and_compare_snapshot "invalid-positional-ts" c8tsx-default-spread "$output"
   [ "$status" -eq 1 ]
 }

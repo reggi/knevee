@@ -1,0 +1,14 @@
+{
+  "ts": {
+    "executables": ["c8node", "deno", "node-ts"],
+    "runtimes": ["default", "deno", "tsx", "node-ts"]
+  },
+  "cjs": {
+    "executables": ["deno", "tsx", "node-build-cjs"],
+    "runtimes": ["default", "deno", "tsx", "node"]
+  },
+  "mjs": {
+    "executables": ["deno", "tsx", "node-build-esm"],
+    "runtimes": ["default", "deno", "tsx", "node"]
+  }
+}

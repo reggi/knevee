@@ -1,6 +1,7 @@
 import {executablePassthrough} from '../../src/index.ts'
 
 export const command = executablePassthrough({
+  filename: import.meta.filename,
   name: 'pig-latin',
   description: 'Converts the name to pig latin',
   output: 'log',

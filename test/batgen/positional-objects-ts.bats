@@ -14,74 +14,8 @@ save_and_compare_snapshot() {
     diff -u "$snapshot" <(echo "$3")
 }
 
-@test "positional-objects-ts-c8node-default-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" c8node-default-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-c8node-deno-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts deno eval -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" c8node-deno-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-c8node-tsx-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts tsx -e -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" c8node-tsx-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-c8node-node-ts-spread" {
-  run npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" c8node-node-ts-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-deno-default-spread" {
-  run deno run -A ./src/bin/knevee.ts test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" deno-default-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-deno-deno-spread" {
-  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" deno-deno-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-deno-tsx-spread" {
-  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" deno-tsx-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-deno-node-ts-spread" {
-  run deno run -A ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" deno-node-ts-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-node-ts-default-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" node-ts-default-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-node-ts-deno-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts deno eval -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" node-ts-deno-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-node-ts-tsx-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts tsx -e -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" node-ts-tsx-spread "$output"
-  [ "$status" -eq 0 ]
-}
-
-@test "positional-objects-ts-node-ts-node-ts-spread" {
-  run node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e -- test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
-  save_and_compare_snapshot "positional-objects-ts" node-ts-node-ts-spread "$output"
+@test "positional-objects-ts-c8tsx-default-spread" {
+  run npx -s c8 --reporter=none --clean=false npx -s tsx ./src/bin/knevee.ts test/fixtures/positional-objects.ts "tim" "apple" "42" "nyc"
+  save_and_compare_snapshot "positional-objects-ts" c8tsx-default-spread "$output"
   [ "$status" -eq 0 ]
 }

@@ -1,21 +1,27 @@
 {
   "profiles": {
+    "direct": {
+      "executables": ["c8tsx-direct"],
+      "runtimes": ["default"]
+    },
     "ts": {
-      "executables": ["c8node", "deno", "node-ts"],
-      "runtimes": ["default", "deno", "tsx", "node-ts"]
+      "executables": ["c8tsx"],
+      "runtimes": ["default"]
     },
     "cjs": {
-      "executables": ["deno", "tsx", "node-build-cjs"],
-      "runtimes": ["default", "deno", "tsx", "node"]
+      "executables": [],
+      "runtimes": []
     },
     "mjs": {
-      "executables": ["deno", "tsx", "node-build-esm"],
-      "runtimes": ["default", "deno", "tsx", "node"]
+      "executables": [],
+      "runtimes": []
     }
   },
   "executables": {
-    "c8tsx": "npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts",
-    "c8node": "npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts",
+    "c8tsx": "npx -s c8 --reporter=none --clean=false npx -s tsx ./src/bin/knevee.ts",
+    "c8node": "npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts",
+    "c8tsx-direct": "npx -s c8 --reporter=none --clean=false npx -s tsx",
+    "c8node-direct": "npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning",
     "deno": "deno run -A ./src/bin/knevee.ts",
     "tsx": "tsx ./src/bin/knevee.ts",
     "node-ts": "node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts",
@@ -35,6 +41,10 @@
         {
           "path": "test/fixtures/greeting-passthrough.ts",
           "profile": "ts"
+        },
+        {
+          "path": "test/fixtures/greeting-passthrough.ts",
+          "profile": "direct"
         },
         {
           "path": "test/fixtures/greeting-passthrough.mjs",
