@@ -62,7 +62,7 @@ jobs:
 
       - name: Run Node.js tests
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm test:no-report
+        run: npm run test:no-report
 
       - name: Report results
         run: npm run report
