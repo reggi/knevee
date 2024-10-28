@@ -51,7 +51,7 @@ jobs:
           echo "::set-output name=key::$KEY"
 
       - name: Log cache key
-        run: echo "Computed SHA Key for cache: ${{ steps.cache-key.outputs.key }}"
+        run: echo "Computed SHA Key for cache ${{ steps.cache-key.outputs.key }}"
 
       - name: Cache test results
         uses: actions/cache@v2
