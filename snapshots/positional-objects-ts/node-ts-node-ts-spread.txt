@@ -1,0 +1,6 @@
+{
+  "firstName": "tim",
+  "lastName": "apple",
+  "age": "42",
+  "location": "nyc"
+}

@@ -22,13 +22,24 @@ save_and_compare_snapshot() {
 `.trim()
 
 function generateBatsTest(opts) {
-  const {command, exitcode, folder, testName} = opts
+  const {command, exitCode, folder, testName, pipe} = opts
   const escapedCommand = command.replace(/\$/g, '\\$')
+  if (pipe) {
+    return `
+@test "${folder}-${testName}" {
+  output=$(${escapedCommand})
+  status=$?
+  save_and_compare_snapshot "${folder}" ${testName} "$output"
+  [ "$status" -eq ${exitCode || 0} ]
+}
+`.trim()
+  }
+
   return `
 @test "${folder}-${testName}" {
   run ${escapedCommand}
   save_and_compare_snapshot "${folder}" ${testName} "$output"
-  [ "$status" -eq ${exitcode} ]
+  [ "$status" -eq ${exitCode} ]
 }
 `.trim()
 }
@@ -36,8 +47,14 @@ function generateBatsTest(opts) {
 const handle = async (json: string) => {
   await fs.mkdir('./test/batgen/', {recursive: true})
 
+  type Test = {
+    exitCode: number
+    argv: string[]
+    pipe: string
+  }
+
   type Fixture = {
-    tests: {[key: string]: [number, ...string[]]}
+    tests: {[key: string]: Test}
     profiles: {
       profile: string
       path: string
@@ -85,7 +102,7 @@ const handle = async (json: string) => {
   const getTest = (opt: {
     id: string
     path: string
-    tests: {key: string; value: [number, ...string[]]}[]
+    tests: (Test & {key: string})[]
     executables: {key: string; value: string}[]
     runtimes: {key: string; value: string}[]
   }) => {
@@ -96,10 +113,13 @@ const handle = async (json: string) => {
           .map(runtime => {
             return tests
               .map(test => {
-                const [exitcode, ...args] = test.value
-                const command = [executable.value, runtime.value, path, ...args].filter(Boolean).join(' ')
-                const testName = [executable.key, runtime.key, test.key].join('-')
-                const bat = generateBatsTest({command, exitcode, folder: id, testName})
+                const {key, exitCode, argv = [], pipe} = test
+                const pipeString = pipe ? [pipe, '|'] : []
+                const command = [...pipeString, executable.value, runtime.value, path, ...argv.map(v => `"${v}"`)]
+                  .filter(Boolean)
+                  .join(' ')
+                const testName = [executable.key, runtime.key, key].join('-')
+                const bat = generateBatsTest({command, exitCode, folder: id, testName, pipe})
                 return bat
               })
               .flat()
@@ -115,7 +135,7 @@ const handle = async (json: string) => {
       const profile = getProfile(v.profile)
       const basename = nodePath.basename(v.path, nodePath.extname(v.path))
       const id = `${basename}-${v.profile}`
-      const reformatTests = Object.entries(tests).map(([key, value]) => ({key, value}))
+      const reformatTests = Object.entries(tests).map(([key, value]) => ({key, ...value}))
       const saveLocation = nodePath.join('./test/batgen/', `${id}.bats`)
       const bats = getTest({
         id,
@@ -152,14 +172,3 @@ export const command = executablePassthrough({
   output: false,
   default: handle,
 })
-
-// for (const [executableKey, executableValue] of Object.entries(file.executables)) {
-//   for (const [fixtureKey, fixtureValue] of Object.entries(file.fixtures)) {
-//     for (const [testKey, testValue] of Object.entries((fixtureValue as any).tests)) {
-//       const [exitcode, ...args] = (testValue as any)
-//       const id = `${executableKey}-${fixtureKey}-${testKey}`
-//       const command = [executableValue, (fixtureValue as any).path, ...args].join(' ')
-//       tests.push(generateBatsTest({command, exitcode, id}))
-//     }
-//   }
-// }

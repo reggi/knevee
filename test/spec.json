@@ -1,7 +1,7 @@
 {
   "profiles": {
     "ts": {
-      "executables": ["c8", "deno", "node-ts"],
+      "executables": ["c8node", "deno", "node-ts"],
       "runtimes": ["default", "deno", "tsx", "node-ts"]
     },
     "cjs": {
@@ -14,7 +14,8 @@
     }
   },
   "executables": {
-    "c8": "npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts",
+    "c8tsx": "npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts",
+    "c8node": "npx -s c8 --reporter=none --clean=false node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning  ./src/bin/knevee.ts",
     "deno": "deno run -A ./src/bin/knevee.ts",
     "tsx": "tsx ./src/bin/knevee.ts",
     "node-ts": "node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts",
@@ -57,9 +58,173 @@
         }
       ],
       "tests": {
-        "help": [0, "--help"],
-        "missing-args": [1],
-        "valid-args": [0, "John"]
+        "help": {
+          "exitCode": 0,
+          "argv": ["--help"]
+        },
+        "missing-args": {
+          "exitCode": 1,
+          "argv": []
+        },
+        "valid-args": {
+          "exitCode": 0,
+          "argv": ["John"]
+        },
+        "extra-args": {
+          "exitCode": 1,
+          "argv": ["John", "extra"]
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/optional.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "help": {
+          "exitCode": 0,
+          "argv": ["--help"]
+        },
+        "missing-args": {
+          "exitCode": 1,
+          "argv": []
+        },
+        "valid-args": {
+          "exitCode": 0,
+          "argv": ["John"]
+        },
+        "extra-args": {
+          "exitCode": 1,
+          "argv": ["John", "Greetings", "extra"]
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/pipe.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "stdin": {
+          "pipe": "echo \"Hello World\"",
+          "exitCode": 0
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/starts-with-a.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "true": {
+          "exitCode": 0,
+          "argv": ["alpha"]
+        },
+        "false": {
+          "exitCode": 0,
+          "argv": ["beta"]
+        },
+        "true-emoji": {
+          "exitCode": 0,
+          "argv": ["alpha", "--emoji"]
+        },
+        "false-emoji": {
+          "exitCode": 0,
+          "argv": ["beta", "--emoji"]
+        },
+        "true-int": {
+          "exitCode": 0,
+          "argv": ["alpha", "--int"]
+        },
+        "false-int": {
+          "exitCode": 0,
+          "argv": ["beta", "--int"]
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/pig-latin.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "spread": {
+          "exitCode": 0,
+          "argv": ["hello", "world"]
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/invalid-positional.ts",
+          "profile": "ts"
+        },
+        {
+          "path": "test/fixtures/invalid-rest.ts",
+          "profile": "ts"
+        },
+        {
+          "path": "test/fixtures/invalid-order.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "spread": {
+          "exitCode": 1
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/positional-objects.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "spread": {
+          "exitCode": 0,
+          "argv": ["tim", "apple", "42", "nyc"]
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/positional-objects-rest.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "spread": {
+          "exitCode": 0,
+          "argv": ["tim", "apple", "spaget", "hawtdwg", "meatloaf"]
+        }
+      }
+    },
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/without-positionals.ts",
+          "profile": "ts"
+        }
+      ],
+      "tests": {
+        "success": {
+          "exitCode": 0,
+          "argv": []
+        }
       }
     }
   ]

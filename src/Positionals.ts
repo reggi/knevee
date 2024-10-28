@@ -45,8 +45,11 @@ class PositionalRules {
   }
   validate(argv: string[]) {
     const {rules, requiredPositionals, hasRestPositional} = this
-    const _releventPositionals: string[] = argv.slice(0, rules.length)
-    const releventPositionals: any[] = _releventPositionals.filter(v => v !== undefined)
+
+    const releventPositionals: any[] = hasRestPositional
+      ? argv
+      : argv.slice(0, rules.length).filter(v => v !== undefined)
+
     if (requiredPositionals.length > releventPositionals.length) {
       const missingPositionals = requiredPositionals.slice(releventPositionals.length)
       throw new Error(`Missing required positional arguments: ${missingPositionals.join(', ')}`)
@@ -55,10 +58,12 @@ class PositionalRules {
       const extraPositionals = argv.slice(rules.length)
       throw new Error(`Extra positional arguments: ${extraPositionals.join(', ')}`)
     }
+
     const fillCount = hasRestPositional ? rules.length - 1 : rules.length
     while (releventPositionals.length < fillCount) {
       releventPositionals.push(undefined)
     }
+
     return releventPositionals
   }
   asObjects(argv: string[]) {
@@ -82,11 +87,7 @@ export class Positionals {
   private instances: PositionalRules[]
   private numberOfDoubleDashes: number
   constructor(rules: undefined | string | string[] = []) {
-    if (typeof rules === 'undefined') {
-      this.rules = []
-    } else {
-      this.rules = normalizeArrayOfStrings(rules)
-    }
+    this.rules = normalizeArrayOfStrings(rules)
     this.numberOfDoubleDashes = this.rules.filter(v => v === '--').length
     const s = splitArgv(this.rules, this.numberOfDoubleDashes)
     this.instances = s.map(v => new PositionalRules(v))
@@ -96,16 +97,13 @@ export class Positionals {
     const argvInstances = splitArgv(argv, this.numberOfDoubleDashes)
     const numberOfDoubleDashes = argv.filter(v => v === '--').length
     const numberOfDoubleDashesInRule = this.numberOfDoubleDashes
-    if (numberOfDoubleDashes < numberOfDoubleDashesInRule) {
+    if (numberOfDoubleDashes > numberOfDoubleDashesInRule) {
       throw new Error('Invalid number of double dashes')
     }
     return argvInstances.map((instanceArgs, i) => method(this.instances[i], instanceArgs))
   }
   validate(argv: string[]) {
     return this.processInstances(argv, (instance, args) => instance.validate(args))
-  }
-  asObjects(argv: string[]) {
-    return this.processInstances(argv, (instance, args) => instance.asObjects(args))
   }
   asNamedObject(argv: string[]) {
     const naked: NakedItem[] = []
@@ -133,7 +131,6 @@ export class Positionals {
   }
   asObject(argv: string[]) {
     const value = this.validate(argv)
-    if (value.length === 0) return []
     return Object.fromEntries(
       value.map((item, index) => {
         const key = '_'.repeat(index + 1)

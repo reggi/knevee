@@ -192,6 +192,7 @@ export class Command implements RequiredModuleOptions {
 
     const promises = stdin.map(async ({stdin}) => {
       var {_, ...restFlags} = flags
+
       if (cmd.useArgsObject === false) {
         if (stdin && cmd.useUnshiftStdin === true) {
           _.push(stdin)

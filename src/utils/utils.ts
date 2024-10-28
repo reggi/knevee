@@ -12,7 +12,10 @@ export function normalizeArrayOfStrings(value: string | string[] = []): string[]
       return v.trim()
     })
   } else if (typeof value === 'string') {
-    value = value.split(' ').map(v => v.trim())
+    value = value
+      .split(' ')
+      .map(v => v.trim())
+      .filter(Boolean)
   } else {
     throw new Error('Unable to normalize array')
   }

@@ -9,7 +9,7 @@ export async function handleValue(output: string | boolean, value: any, flags: a
     }
   } else if (output === 'lines') {
     if (Array.isArray(value)) {
-      console.log(value.join('\\n'))
+      console.log(value.join('\n'))
     } else {
       console.log(value)
     }
@@ -20,7 +20,7 @@ export async function handleValue(output: string | boolean, value: any, flags: a
   } else if (output === 'json') {
     console.log(JSON.stringify(value, null, 2))
   } else if (output === 'bash') {
-    const code = [value].flat(Infinity).join('\\n')
+    const code = [value].flat(Infinity).join('\n')
     if (flags.print) {
       console.log(code)
     } else {

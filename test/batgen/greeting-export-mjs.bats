@@ -15,7 +15,7 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-deno-default-help" {
-  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-export.mjs --help
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" deno-default-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -27,13 +27,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-deno-default-valid-args" {
-  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-export.mjs John
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" deno-default-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-deno-default-extra-args" {
+  run deno run -A ./src/bin/knevee.ts test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" deno-default-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-deno-deno-help" {
-  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs --help
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" deno-deno-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -45,13 +51,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-deno-deno-valid-args" {
-  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs John
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" deno-deno-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-deno-deno-extra-args" {
+  run deno run -A ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" deno-deno-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-deno-tsx-help" {
-  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs --help
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" deno-tsx-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -63,13 +75,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-deno-tsx-valid-args" {
-  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs John
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" deno-tsx-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-deno-tsx-extra-args" {
+  run deno run -A ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" deno-tsx-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-deno-node-help" {
-  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs --help
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" deno-node-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -81,13 +99,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-deno-node-valid-args" {
-  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs John
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" deno-node-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-deno-node-extra-args" {
+  run deno run -A ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" deno-node-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-tsx-default-help" {
-  run tsx ./src/bin/knevee.ts test/fixtures/greeting-export.mjs --help
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" tsx-default-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -99,13 +123,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-tsx-default-valid-args" {
-  run tsx ./src/bin/knevee.ts test/fixtures/greeting-export.mjs John
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" tsx-default-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-tsx-default-extra-args" {
+  run tsx ./src/bin/knevee.ts test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" tsx-default-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-tsx-deno-help" {
-  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs --help
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" tsx-deno-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -117,13 +147,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-tsx-deno-valid-args" {
-  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs John
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" tsx-deno-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-tsx-deno-extra-args" {
+  run tsx ./src/bin/knevee.ts deno eval -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" tsx-deno-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-tsx-tsx-help" {
-  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs --help
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" tsx-tsx-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -135,13 +171,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-tsx-tsx-valid-args" {
-  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs John
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" tsx-tsx-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-tsx-tsx-extra-args" {
+  run tsx ./src/bin/knevee.ts tsx -e -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" tsx-tsx-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-tsx-node-help" {
-  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs --help
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" tsx-node-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -153,13 +195,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-tsx-node-valid-args" {
-  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs John
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" tsx-node-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-tsx-node-extra-args" {
+  run tsx ./src/bin/knevee.ts node -e -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" tsx-node-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-node-build-esm-default-help" {
-  run node ./dist/bin/knevee.js test/fixtures/greeting-export.mjs --help
+  run node ./dist/bin/knevee.js test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-default-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -171,13 +219,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-node-build-esm-default-valid-args" {
-  run node ./dist/bin/knevee.js test/fixtures/greeting-export.mjs John
+  run node ./dist/bin/knevee.js test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-default-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-node-build-esm-default-extra-args" {
+  run node ./dist/bin/knevee.js test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" node-build-esm-default-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-node-build-esm-deno-help" {
-  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-export.mjs --help
+  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-deno-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -189,13 +243,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-node-build-esm-deno-valid-args" {
-  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-export.mjs John
+  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-deno-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-node-build-esm-deno-extra-args" {
+  run node ./dist/bin/knevee.js deno eval -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" node-build-esm-deno-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-node-build-esm-tsx-help" {
-  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-export.mjs --help
+  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-tsx-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -207,13 +267,19 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-node-build-esm-tsx-valid-args" {
-  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-export.mjs John
+  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-tsx-valid-args "$output"
   [ "$status" -eq 0 ]
 }
 
+@test "greeting-export-mjs-node-build-esm-tsx-extra-args" {
+  run node ./dist/bin/knevee.js tsx -e -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" node-build-esm-tsx-extra-args "$output"
+  [ "$status" -eq 1 ]
+}
+
 @test "greeting-export-mjs-node-build-esm-node-help" {
-  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-export.mjs --help
+  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-export.mjs "--help"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-node-help "$output"
   [ "$status" -eq 0 ]
 }
@@ -225,7 +291,13 @@ save_and_compare_snapshot() {
 }
 
 @test "greeting-export-mjs-node-build-esm-node-valid-args" {
-  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-export.mjs John
+  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-export.mjs "John"
   save_and_compare_snapshot "greeting-export-mjs" node-build-esm-node-valid-args "$output"
   [ "$status" -eq 0 ]
+}
+
+@test "greeting-export-mjs-node-build-esm-node-extra-args" {
+  run node ./dist/bin/knevee.js node -e -- test/fixtures/greeting-export.mjs "John" "extra"
+  save_and_compare_snapshot "greeting-export-mjs" node-build-esm-node-extra-args "$output"
+  [ "$status" -eq 1 ]
 }
