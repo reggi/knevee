@@ -43,9 +43,15 @@ jobs:
           git diff --exit-code
           git diff --cached --exit-code
 
-      - name: Get cache key
+      - name: Calculate cache key
         id: cache-key
-        run: echo "::set-output name=key::$(find src test -type f | sort | xargs sha1sum | sha1sum | cut -d' ' -f1)"
+        run: |
+          KEY=$(find src test -type f -print0 | sort -z | xargs -0 sha1sum | sha1sum | cut -d' ' -f1)
+          echo "SHA Key: $KEY"
+          echo "::set-output name=key::$KEY"
+
+      - name: Log cache key
+        run: echo "Computed SHA Key for cache: ${{ steps.cache-key.outputs.key }}"
 
       - name: Cache test results
         uses: actions/cache@v2
