@@ -8,10 +8,4 @@ export default function (name: string) {
   return `echo "Welcome ${name}"`
 }
 
-export {
-  name,
-  description,
-  dependencies,
-  output,
-  positionals
-}
+export {name, description, dependencies, output, positionals}

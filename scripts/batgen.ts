@@ -34,31 +34,32 @@ function generateBatsTest(opts) {
 }
 
 const handle = async (json: string) => {
-
-  await fs.mkdir('./test/batgen/', { recursive: true })
+  await fs.mkdir('./test/batgen/', {recursive: true})
 
   type Fixture = {
-    tests: { [key: string]: [number, ...string[]] };
+    tests: {[key: string]: [number, ...string[]]}
     profiles: {
-      profile: string;
+      profile: string
       path: string
     }[]
   }
   const file = JSON.parse(json) as {
-    profiles: { [key: string]: {
-      runtimes: string[];
-      executables: string[];
-    } };
-    fixtures: Fixture[];
-    runtimes: { [key: string]: string };
-    executables: { [key: string]: string };
-  };
+    profiles: {
+      [key: string]: {
+        runtimes: string[]
+        executables: string[]
+      }
+    }
+    fixtures: Fixture[]
+    runtimes: {[key: string]: string}
+    executables: {[key: string]: string}
+  }
 
   const getProfile = (profile: string) => {
     const result = file.profiles[profile]
     const runtimes = getRuntimes(result.runtimes)
     const executables = getExecutables(result.executables)
-    return { runtimes, executables }
+    return {runtimes, executables}
   }
 
   const getExecutable = (executable: string) => {
@@ -67,7 +68,7 @@ const handle = async (json: string) => {
 
   const getExecutables = (executable: string[]) => {
     return executable.map(key => {
-      return { key, value: getExecutable(key) }
+      return {key, value: getExecutable(key)}
     })
   }
 
@@ -77,33 +78,39 @@ const handle = async (json: string) => {
 
   const getRuntimes = (runtimes: string[]) => {
     return runtimes.map(key => {
-      return { key, value: getRuntime(key) }
+      return {key, value: getRuntime(key)}
     })
   }
 
   const getTest = (opt: {
-    id: string,
-    path: string,
-    tests: { key: string, value: [number, ...string[]] }[],
-    executables: {key: string, value: string}[],
-    runtimes: {key: string, value: string}[],
+    id: string
+    path: string
+    tests: {key: string; value: [number, ...string[]]}[]
+    executables: {key: string; value: string}[]
+    runtimes: {key: string; value: string}[]
   }) => {
-    const { id, path, tests, executables, runtimes } = opt;
-    return executables.map(executable => {
-      return runtimes.map(runtime => {
-        return tests.map(test => {
-          const [exitcode, ...args] = test.value;
-          const command = [executable.value, runtime.value, path, ...args].filter(Boolean).join(' ');
-          const testName = [executable.key, runtime.key, test.key].join('-');
-          const bat = generateBatsTest({ command, exitcode, folder: id, testName })
-          return bat
-        }).flat()
-      }).flat()
-    }).flat()
+    const {id, path, tests, executables, runtimes} = opt
+    return executables
+      .map(executable => {
+        return runtimes
+          .map(runtime => {
+            return tests
+              .map(test => {
+                const [exitcode, ...args] = test.value
+                const command = [executable.value, runtime.value, path, ...args].filter(Boolean).join(' ')
+                const testName = [executable.key, runtime.key, test.key].join('-')
+                const bat = generateBatsTest({command, exitcode, folder: id, testName})
+                return bat
+              })
+              .flat()
+          })
+          .flat()
+      })
+      .flat()
   }
 
   const getFixture = (fixture: Fixture) => {
-    const { tests, profiles } = fixture;
+    const {tests, profiles} = fixture
     return profiles.map(v => {
       const profile = getProfile(v.profile)
       const basename = nodePath.basename(v.path, nodePath.extname(v.path))
@@ -117,7 +124,7 @@ const handle = async (json: string) => {
         executables: profile.executables,
         runtimes: profile.runtimes,
       })
-      return { ...v, tests, ...profile, basename, id, bats, saveLocation }
+      return {...v, tests, ...profile, basename, id, bats, saveLocation}
     })
   }
 
@@ -127,11 +134,13 @@ const handle = async (json: string) => {
 
   const fixtures = getFixtures(file.fixtures)
 
-  await Promise.all(fixtures.map(async fixture => {
-    const { saveLocation, bats } = fixture
-    bats.unshift(prefix)
-    await fs.writeFile(saveLocation, bats.join('\n\n'));
-  }))
+  await Promise.all(
+    fixtures.map(async fixture => {
+      const {saveLocation, bats} = fixture
+      bats.unshift(prefix)
+      await fs.writeFile(saveLocation, bats.join('\n\n'))
+    }),
+  )
 }
 
 export const command = executablePassthrough({
