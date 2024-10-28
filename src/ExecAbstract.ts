@@ -1,5 +1,4 @@
 import {Command} from './Command.ts'
-import {wrapError} from './utils/utils.ts'
 
 export abstract class ExecAbstract {
   abstract handler(args: any[], flags: any): Promise<any>
@@ -10,12 +9,8 @@ export abstract class ExecAbstract {
   }
 
   async run(argv: string[]) {
-    try {
-      return await this.cmd.run(argv, (args, flags) => {
-        return this.handler(args, flags)
-      })
-    } catch (e) {
-      wrapError(e)
-    }
+    return await this.cmd.run(argv, (args, flags) => {
+      return this.handler(args, flags)
+    })
   }
 }

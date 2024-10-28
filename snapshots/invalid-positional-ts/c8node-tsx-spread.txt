@@ -1,14 +1,1 @@
-file:///Users/thomasreggi/Documents/GitHub/knevee2/src/Positionals.ts:29
-        throw new Error(`Invalid positional: ${positional}`)
-              ^
-
-Error: Invalid positional: <sentence...]
-    at new PositionalRules (file:///Users/thomasreggi/Documents/GitHub/knevee2/src/Positionals.ts:29:15)
-    at file:///Users/thomasreggi/Documents/GitHub/knevee2/src/Positionals.ts:93:33
-    at Array.map (<anonymous>)
-    at new Positionals (file:///Users/thomasreggi/Documents/GitHub/knevee2/src/Positionals.ts:93:24)
-    at new Command (file:///Users/thomasreggi/Documents/GitHub/knevee2/src/Command.ts:102:83)
-    at Command.init (file:///Users/thomasreggi/Documents/GitHub/knevee2/src/Command.ts:223:14)
-    at async Command.pathSubprocess (file:///Users/thomasreggi/Documents/GitHub/knevee2/src/Command.ts:248:17)
-
-Node.js v22.9.0
+Invalid positional: <sentence...]

@@ -11,6 +11,7 @@ import {type FlagOptions, getFlags} from './utils/flags.ts'
 import {type StdinLoopType, stdinLoop, validateStdinType} from './utils/stdin.ts'
 import {getTable} from './utils/table.ts'
 import {config, normalizeArrayOfStrings, resolveDirectory, resolveFile, resolvePath} from './utils/utils.ts'
+import {wrapError} from './utils/utils.ts'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import which from 'which'
@@ -210,19 +211,35 @@ export class Command implements RequiredModuleOptions {
   }
 
   async exec(argv: string[]) {
-    return new Exec(this).run(argv)
+    try {
+      return await new Exec(this).run(argv)
+    } catch (e) {
+      wrapError(e)
+    }
   }
 
   async execSub(argv: string[]) {
-    return new ExecSub(this).run(argv)
+    try {
+      return await new ExecSub(this).run(argv)
+    } catch (e) {
+      wrapError(e)
+    }
+  }
+
+  static new(opt: ModuleOptions & {path?: string}) {
+    try {
+      return new Command(opt)
+    } catch (e) {
+      throw wrapError(e)
+    }
   }
 
   static async init(opt: {path: string; name?: string | string[]}) {
     const mod = await import(opt.path)
     if (mod.command) {
-      return new Command({...mod.command, ...opt})
+      return Command.new({...mod.command, ...opt})
     }
-    return new Command({...mod, ...opt})
+    return Command.new({...mod, ...opt})
   }
 
   static async fileSubprocess(opt: {path: string; cwd: string; argv: string[]; runtime?: string[]} = config()) {
@@ -254,7 +271,7 @@ export class Command implements RequiredModuleOptions {
     handler?: T,
   ): () => void {
     const sub = () => {
-      const cmd = new Command({...mod, ...(handler ? {default: handler} : {})})
+      const cmd = Command.new({...mod, ...(handler ? {default: handler} : {})})
       cmd.exec(process.argv.slice(2))
     }
     if (typeof mod.filename !== 'undefined' && mod.filename === process.argv[1]) sub()
@@ -267,7 +284,7 @@ export class Command implements RequiredModuleOptions {
   ) {
     const input = {...mod, ...(handler ? {default: handler} : {})}
     const executable = () => {
-      const cmd = new Command(input)
+      const cmd = Command.new(input)
       cmd.exec(process.argv.slice(2))
     }
     if (typeof mod.filename !== 'undefined' && mod.filename === process.argv[1]) executable()

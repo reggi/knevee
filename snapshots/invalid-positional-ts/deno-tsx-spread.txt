@@ -1,10 +1,1 @@
-[0m[1m[31merror[0m: Uncaught (in promise) Error: Invalid positional: <sentence...]
-        throw new Error(`Invalid positional: ${positional}`)
-[0m[31m              ^[0m
-    at new [0m[1m[3mPositionalRules[0m ([0m[36mfile:///Users/thomasreggi/Documents/GitHub/knevee2/src/Positionals.ts[0m:[0m[33m29[0m:[0m[33m15[0m)
-    at [0m[36mfile:///Users/thomasreggi/Documents/GitHub/knevee2/src/Positionals.ts[0m:[0m[33m93[0m:[0m[33m33[0m
-    at [0m[1m[3mArray.map[0m ([0m[36m<anonymous>[0m)
-    at new [0m[1m[3mPositionals[0m ([0m[36mfile:///Users/thomasreggi/Documents/GitHub/knevee2/src/Positionals.ts[0m:[0m[33m93[0m:[0m[33m24[0m)
-    at new [0m[1m[3mCommand[0m ([0m[36mfile:///Users/thomasreggi/Documents/GitHub/knevee2/src/Command.ts[0m:[0m[33m102[0m:[0m[33m83[0m)
-    at [0m[1m[3mFunction.init[0m ([0m[36mfile:///Users/thomasreggi/Documents/GitHub/knevee2/src/Command.ts[0m:[0m[33m223[0m:[0m[33m14[0m)
-    at async [0m[1m[3mFunction.pathSubprocess[0m ([0m[36mfile:///Users/thomasreggi/Documents/GitHub/knevee2/src/Command.ts[0m:[0m[33m248[0m:[0m[33m17[0m)
+Invalid positional: <sentence...]
