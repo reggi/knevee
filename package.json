@@ -48,7 +48,7 @@
     "test:just-bats": "./test/bats/bin/bats test/batgen/*.bats",
     "test:bats:file": "./test/bats/bin/bats",
     "test:node": "npm run test:node:file --  \"**/*.test.ts\"",
-    "test:node:file": "c8 --reporter=none --clean=false node --test --experimental-test-snapshots --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning",
+    "test:node:file": "c8 --reporter=none --clean=false tsx",
     "typecheck": "tsc"
   },
   "prettier": "@reggi/prettier-config",
