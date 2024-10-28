@@ -1,15 +1,15 @@
 {
   "profiles": {
     "ts": {
-      "executables": ["c8", "deno", "node_ts"],
-      "runtimes": ["default", "deno", "tsx", "node_ts"]
+      "executables": ["c8", "deno", "node-ts"],
+      "runtimes": ["default", "deno", "tsx", "node-ts"]
     },
     "cjs": {
-      "executables": ["deno", "tsx", "node_build_cjs"],
+      "executables": ["deno", "tsx", "node-build-cjs"],
       "runtimes": ["default", "deno", "tsx", "node"]
     },
     "mjs": {
-      "executables": ["deno", "tsx", "node_build_esm"],
+      "executables": ["deno", "tsx", "node-build-esm"],
       "runtimes": ["default", "deno", "tsx", "node"]
     }
   },
@@ -17,29 +17,50 @@
     "c8": "npx -s c8 --reporter=none --clean=false tsx ./src/bin/knevee.ts",
     "deno": "deno run -A ./src/bin/knevee.ts",
     "tsx": "tsx ./src/bin/knevee.ts",
-    "node_ts": "node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts",
-    "node_build_esm": "node ./dist/bin/knevee.js",
-    "node_build_cjs": "node ./dist/bin/knevee.cjs"
+    "node-ts": "node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin/knevee.ts",
+    "node-build-esm": "node ./dist/bin/knevee.js",
+    "node-build-cjs": "node ./dist/bin/knevee.cjs"
   },
   "runtimes": {
     "default": "",
     "deno": "deno eval --",
     "tsx": "tsx -e --",
-    "node_ts": "node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e --",
+    "node-ts": "node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning -e --",
     "node": "node -e --"
   },
-  "fixtures": {
-    "greeting-executablePassthrough": {
-      "profiles": {
-        "ts": "test/fixtures/greeting-executablePassthrough.ts",
-        "mjs": "test/fixtures/greeting-executablePassthrough.mjs",
-        "cjs": "test/fixtures/greeting-executablePassthrough.cjs"
-      },
+  "fixtures": [
+    {
+      "profiles": [
+        {
+          "path": "test/fixtures/greeting-passthrough.ts",
+          "profile": "ts"
+        },
+        {
+          "path": "test/fixtures/greeting-passthrough.mjs",
+          "profile": "mjs"
+        },
+        {
+          "path": "test/fixtures/greeting-passthrough.cjs",
+          "profile": "cjs"
+        },
+        {
+          "path": "test/fixtures/greeting-export.ts",
+          "profile": "ts"
+        },
+        {
+          "path": "test/fixtures/greeting-export.mjs",
+          "profile": "mjs"
+        },
+        {
+          "path": "test/fixtures/greeting-export.cjs",
+          "profile": "cjs"
+        }
+      ],
       "tests": {
         "help": [0, "--help"],
-        "missing_args": [1],
-        "valid_args": [0, "John"]
+        "missing-args": [1],
+        "valid-args": [0, "John"]
       }
     }
-  }
+  ]
 }

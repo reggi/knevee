@@ -15,8 +15,12 @@ export class ExecSub extends ExecAbstract {
       valueString,
       `const flags = ${JSON.stringify(flags)};`,
       `import('${cmd.path}').then(cmd => {`,
-      `  if (typeof cmd.command.default !== 'undefined') {`,
+
+      `  if (typeof cmd.command !== 'undefined' && typeof cmd.command.default !== 'undefined') {`,
       `    return cmd.command.default(...${JSON.stringify(args)}.map(v => v === null ? undefined : v))`,
+      `  }`,
+      `  if (typeof cmd.default !== 'undefined' && typeof cmd.default.default !== 'undefined') {`,
+      `    return cmd.default.default(...${JSON.stringify(args)}.map(v => v === null ? undefined : v))`,
       `  }`,
       `  if (typeof cmd.default !== 'undefined') {`,
       `    return cmd.default(...${JSON.stringify(args)}.map(v => v === null ? undefined : v))`,
