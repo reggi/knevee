@@ -1,0 +1,27 @@
+{
+  "name": "stdin-async",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup --clean ./src/index.ts --format esm,cjs --dts",
+    "test": "c8 --100 tsx --test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.4",
+    "c8": "^10.1.2",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
