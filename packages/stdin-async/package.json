@@ -1,5 +1,5 @@
 {
-  "name": "stdin-async",
+  "name": "@reggi/stdin-async",
   "version": "1.0.0",
   "type": "module",
   "exports": {
