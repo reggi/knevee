@@ -17,12 +17,12 @@
     "knevee": "dist/bin.cjs"
   },
   "scripts": {
-    "build": "npm run generate && tsup --clean ./src/index.ts ./src/bin.ts --format esm,cjs --dts",
-    "generate": "./src/build/index.ts",
+    "build": "tsup --clean ./src/index.ts ./src/bin.ts --format esm,cjs --dts",
+    "generate": "NODE_OPTIONS=\"--experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning\" ./src/build/index.ts",
     "report": "open ./coverage/index.html",
     "style": "prettier --check .",
     "style:fix": "prettier --write .",
-    "test": "npm run generate && mcr --import tsx tsx --experimental-test-snapshots --test",
+    "test": "NODE_OPTIONS=\"--experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning\" npm run generate && mcr --import tsx tsx --experimental-test-snapshots --test",
     "test:snap": "npm run test -- --test-update-snapshots",
     "update": "npm run generate && npm run build && npm run style:fix && sort-package-json"
   },

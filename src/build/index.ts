@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning
+#!/usr/bin/env node 
 console.log('Entering file')
 import {json2md} from './json2md.ts'
 import {mdInclude} from './md-include.ts'

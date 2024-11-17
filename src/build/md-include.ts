@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin.ts
+#!/usr/bin/env node ./src/bin.ts
 import type {KneveeOptions} from '../index.ts'
 import {promisify} from 'node:util'
 import {exec} from 'node:child_process'

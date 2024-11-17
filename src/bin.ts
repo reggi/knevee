@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning
+#!/usr/bin/env node 
 import {knevee} from './index.ts'
 
 knevee().executable()
