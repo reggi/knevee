@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx ./src/bin.ts
+#!/usr/bin/env -S npx tsx ./src/bin.ts
 const {knevee} = require('../dist/index.cjs')
 
 module.exports = knevee({
