@@ -1,5 +1,3 @@
-test/bats
-test/test_helper
-docs
-value-string.ts
 README.md
+src/build
+src/artifacts

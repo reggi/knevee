@@ -1,68 +1,3 @@
-# knevee
-
-**knevee** simplifies running JavaScript directly from the terminal. It enables users to execute scripts efficiently, providing intuitive CLI interactions.
-
-## Overview
-
-knevee allows you to craft lightweight, customizable command-line tools using JavaScript. Define a module, specify the positional arguments and options, and you're ready to run your script with ease.
-
-## Example
-
-Here’s a quick example of how a simple greeting command could be implemented:
-
-```js
-#!/usr/bin/env knevee
-export const description = "Greetings earthling";
-export const positionals = "<name>";
-
-export default async (name) => {
-  return `hello ${name}`;
-};
-```
-
-## Usage
-
-You can execute the script directly, view help, and handle various command-line
-inputs:
-
-```bash
-$ greeting --help
-Usage: greeting <name>
-Greetings earthling
-    --help Prints command help message
-
-$ greeting michael
-hello michael
-
-$ greeting
-Missing required positional arguments: <name>
-
-$ greeting michael jordan
-Extra positional arguments: jordan
-
-$ greeting "michael jordan"
-hello michael jordan
-```
-
-## Installation
-
-Install knevee globally using npm to use it from anywhere on your system:
-
-```bash
-npm install knevee -g
-```
-
-Alternativley you can execute a single file like this
-
-```bash
-npx knevee ./file.js
-```
-
-## Configuration Options
-
-knevee supports a robust set of configuration options to tailor your scripts. Here's what you can customize:
-
-<!-- start run cat src/artifacts/options-table.md -->
 | name | type | doc |
 | --- | --- | --- |
 | name | string \| string[] | The name of the module. (__Defaults to the name of the file__) |
@@ -106,10 +41,3 @@ knevee supports a robust set of configuration options to tailor your scripts. He
 | cwd | string | current working directory |
 | argv | string[] | command arguments |
 | subprocess | boolean | runs the command as a subprocess |
-<!-- end run -->
-
-<!-- start run ./src/build/json2md.ts ./envdef.json -->
-| var | type | description |
-| --- | --- | --- |
-| KNEVE_THROW | boolean | Throws Kneve errors instead of just logging the message |
-<!-- end run -->

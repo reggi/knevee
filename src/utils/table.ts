@@ -5,7 +5,7 @@ type TableOptsObject = {
 
 type TableOpts = TableOptsObject | ((columnLengths: number[]) => TableOptsObject)
 
-export function getTable(array, opts: TableOpts = {}) {
+export function table(array, opts: TableOpts = {}) {
   // Calculate the length of the longest item in each column
   const columnLengths = array[0].map((_, colIndex) => Math.max(...array.map(row => row[colIndex].toString().length)))
 
