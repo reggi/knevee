@@ -1,0 +1,7 @@
+[
+  {
+    "var": "KNEVE_THROW",
+    "type": "boolean",
+    "description": "Throws Kneve errors instead of just logging the message"
+  }
+]

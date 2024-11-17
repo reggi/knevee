@@ -1,0 +1,4 @@
+{
+  "name": "run",
+  "code": "export async function run({ outputType, handleOutput, UserError, func, args, flags }) {\n    let value;\n    try {\n        value = await func(...args);\n    }\n    catch (e) {\n        throw new UserError(e);\n    }\n    return await handleOutput(outputType, value, flags);\n}\n"
+}

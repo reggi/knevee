@@ -1,0 +1,206 @@
+exports[`Command output consistency tests > should match snapshot 1`] = `
+WOOF
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 10`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 11`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 12`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 13`] = `
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 14`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 15`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 16`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 17`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 18`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 19`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 2`] = `
+WOOF
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 20`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 21`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 22`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 23`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 24`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 25`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 26`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 27`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 28`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 29`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 3`] = `
+WOOF
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 30`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 31`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 32`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 33`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 34`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 35`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 36`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 37`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 38`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 39`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 4`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 5`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 6`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 7`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 8`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 9`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;

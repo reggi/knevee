@@ -1,0 +1,4 @@
+{
+  "name": "importer",
+  "code": "export async function importer(path) {\n    const cmd = await import(path);\n    if (typeof cmd.command !== 'undefined' && typeof cmd.command.default !== 'undefined') {\n        return cmd.command;\n    }\n    if (typeof cmd.default !== 'undefined' && typeof cmd.default.default !== 'undefined') {\n        return cmd.default;\n    }\n    if (typeof cmd.default !== 'undefined') {\n        return cmd;\n    }\n    throw new Error('No command found');\n}\n"
+}
