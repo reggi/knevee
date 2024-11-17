@@ -28,8 +28,10 @@ export const command: KneveeOptions = {
   description: 'Converts json array to markdown table',
   output: 'log',
   positionals: '<file.json>',
-  default: async (filePath) => {
+  default: async filePath => {
     if (!filePath) throw new Error('No file path provided')
-    return json2md(JSON.parse(await fs.readFile(path.isAbsolute(filePath) ? filePath : path.join(process.cwd(), filePath), 'utf8')))
+    return json2md(
+      JSON.parse(await fs.readFile(path.isAbsolute(filePath) ? filePath : path.join(process.cwd(), filePath), 'utf8')),
+    )
   },
 }
