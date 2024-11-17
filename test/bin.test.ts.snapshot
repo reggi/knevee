@@ -18,7 +18,9 @@ gamma     Run command gamma
 `;
 
 exports[`Command output consistency tests > should match snapshot 12`] = `
-gamma
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
 
 `;
 
@@ -173,6 +175,11 @@ WOOF
 
 `;
 
+exports[`Command output consistency tests > should match snapshot 40`] = `
+gamma
+
+`;
+
 exports[`Command output consistency tests > should match snapshot 5`] = `
 MEOW
 WOOF
@@ -193,9 +200,11 @@ gamma     Run command gamma
 `;
 
 exports[`Command output consistency tests > should match snapshot 8`] = `
-alpha     Run command alpha     
-beta      Run command beta      
-gamma     Run command gamma     
+Usage: knevee [runtime] [--] [flags] <dir-or-file> [subcommands] [command-args...]
+A command line tool that runs other command line tools
+    --cwd  <string>     The current working directory
+    --runtime  <string> The runtime to use
+    --help              Prints this help
 
 `;
 

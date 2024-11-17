@@ -21,8 +21,11 @@ export const stdinLoop = async (
       if (parsedJson && Array.isArray(parsedJson)) {
         return parsedJson
       }
+      throw new Error('Invalid JSON input not an array')
     } catch (e) {
-      // swallow
+      if (type === 'loopJson') {
+        throw e
+      }
     }
   }
   if (type == 'loop' || type == 'loopLines') {

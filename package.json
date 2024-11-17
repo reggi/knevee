@@ -22,8 +22,9 @@
     "report": "open ./coverage/index.html",
     "style": "prettier --check .",
     "style:fix": "prettier --write .",
-    "test": "npm run generate && mcr --import tsx tsx --experimental-test-snapshots --test",
+    "test": "npm run style && npm run typecheck && npm run generate && mcr --import tsx tsx --experimental-test-snapshots --test",
     "test:snap": "npm run test -- --test-update-snapshots",
+    "typecheck": "tsc",
     "update": "npm run generate && npm run build && npm run style:fix && sort-package-json"
   },
   "prettier": "@github/prettier-config",

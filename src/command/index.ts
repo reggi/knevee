@@ -1,4 +1,3 @@
-import path from 'node:path'
 import {pathType} from './path-type.ts'
 import {cmdName} from './cmd-name.ts'
 import {dirscan} from './dirscan.ts'
@@ -8,12 +7,13 @@ import {table} from '../utils/table.ts'
 import {importer} from '../utils/importer.ts'
 import type {Config} from '../config/index.ts'
 import {debug} from '../utils/debug.ts'
+import {absPath} from '../config/abs-path.ts'
 
 export async function command(config: Config) {
   const logger = debug('knevee:command')
   logger('start')
   const {cwd, target, argv} = config
-  let {file, dir} = target ? await pathType(path.resolve(cwd, target)) : {}
+  let {file, dir} = target ? await pathType(absPath(target, cwd)) : {}
 
   if (file) {
     logger('file match')

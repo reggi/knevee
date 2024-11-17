@@ -10,9 +10,9 @@ import {UserError} from './evaluate/user-error.ts'
 const id = Symbol('knevee')
 let count = -1
 
-export type KneveeOptions = Options
+export type KneveeOptions = Partial<Options>
 
-function knevee(opt?: Options) {
+function knevee(opt?: KneveeOptions) {
   count = count + 1
   const logger = debug(`knevee:${count}`)
   logger('start %d', count)

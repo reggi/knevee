@@ -92,7 +92,7 @@ knevee supports a robust set of configuration options to tailor your scripts. He
 |  |  | - `loopJson` - Reads from stdin as a JSON array and loops over each item. |
 |  |  | - `loopLines` - Reads from stdin as a string and loops over each line. |
 |  |  | - `loop` - Reads stdin and does `loopJson` with backup to `loopLines`. |
-| runtime | string \| string[] | Set the javscript runtime to evaluate subprocesses under, must expect appending js string. |
+| runtime | undefined \| string \| string[] | Set the javscript runtime to evaluate subprocesses under, must expect appending js string. |
 |  |  | `node` |
 |  |  | `--experimental-strip-types` |
 |  |  | `--experimental-detect-module` |
@@ -100,11 +100,11 @@ knevee supports a robust set of configuration options to tailor your scripts. He
 |  |  | `--disable-warning=ExperimentalWarning` |
 |  |  | `-e` |
 | runtimeKey | string \| node \| deno |  |
-| path | string | path to dir or file |
-| __filename | string | path to dir or file |
-| importMeta | ImportMeta |  |
-| cwd | string | current working directory |
-| argv | string[] | command arguments |
+| path | undefined \| string | path to dir or file |
+| __filename | undefined \| string | path to dir or file |
+| importMeta | undefined \| ImportMeta |  |
+| cwd | string \| undefined | current working directory |
+| argv | string[] \| undefined | command arguments |
 | subprocess | boolean | runs the command as a subprocess |
 <!-- end run -->
 

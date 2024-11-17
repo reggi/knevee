@@ -86,8 +86,11 @@ await valid([
   withStdin('./examples/stdin-uppercase.ts', ['meow', 'woof']),
 ])
 
-// help example
+// dir list example
 await valid(['tsx ./src/bin.ts ./examples/no-index'])
+
+// help example
+await valid(['tsx ./src/bin.ts --help'])
 
 // no target
 await invalid(['tsx ./src/bin.ts'])

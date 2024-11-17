@@ -63,7 +63,7 @@ export async function evaluate(config: ParsedOptions, argv: string[]) {
     await spawnJsRuntime(runtime, jsCode)
   }
 
-  const process = async (args: string[]) => {
+  const mainProcess = async (args: string[]) => {
     return run({
       outputType: config.outputType,
       handleOutput,
@@ -74,7 +74,7 @@ export async function evaluate(config: ParsedOptions, argv: string[]) {
     })
   }
 
-  const method = runtime ? subprocess : process
+  const method = runtime ? subprocess : mainProcess
   if (runtime) logger('runtime detected as "%s"', runtime.join(' '))
 
   if (config.useLoopMethod === 'for-await') {

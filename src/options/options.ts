@@ -4,33 +4,33 @@ import type {FlagOptions} from './flag-options.ts'
 
 export class Options {
   /** The name of the module. (__Defaults to the name of the file__) */
-  name?: string | string[] = []
+  name: string | string[] = []
 
   /** A description of what the module does. */
-  description?: string = ''
+  description: string = ''
 
   /** A list of dependencies required by the module. */
-  dependencies?: string | string[] = []
+  dependencies: string | string[] = []
 
   /** Positional arguments that the module accepts. Can be specified as an array or a space-separated string. */
-  positionals?: string[] | string = []
+  positionals: string[] | string = []
 
   /** A mapping of command line flags to their settings. [parseArgs](https://nodejs.org/api/util.html#utilparseargsconfig) */
-  flags?: FlagOptions = {}
+  flags: FlagOptions = {}
 
   /** The function that executes when the command is run. */
-  default?: null | ((...args: any) => any) = null
+  default: null | ((...args: any) => any) = null
 
   // ----- args -----
 
   /** Specifies if the flags should be strictly validated against the provided flags definitions. (Defaults to `true`) */
-  useStrictFlags?: boolean = true
+  useStrictFlags: boolean = true
   /** Determines if stdin should be unshifted into args. (__Defaults to `true`__) */
-  useUnshiftStdin?: boolean = true
+  useUnshiftStdin: boolean = true
   /** When iterating stdin loop uses `Promise.allSettled` instead of `Promise.all`. (__Defaults to `false`__) */
-  useLoopMethod?: string | 'allSettled' | 'all' | 'for-await' = 'for-await'
+  useLoopMethod: string | 'allSettled' | 'all' | 'for-await' = 'for-await'
   /** Args to function is as single object. (__Defaults to `false`__) */
-  useArgsObject?: boolean = false
+  useArgsObject: boolean = false
 
   /**
    * The type of output that the module should produce. (__Defaults to `log`__)
@@ -42,14 +42,14 @@ export class Options {
    * - `bash` - Expects function to return string, and executes, adds `--print` flag to the command, which prints the string.
    * - `false` - Disables output.
    */
-  output?: string | boolean = 'log'
+  output: string | boolean = 'log'
 
   /**
    * Describes how positional rules translate to function arguments. (__Defaults to `positionalAsObject`__)
    * - `positionalNamedObject` - Uses name in positionals as key in args.
    * - `positionalAsArray` - Uses escalating `_` as the key separating `--` in positionals.
    */
-  positionalType?: PositionalType = 'positionalAsObject'
+  positionalType: PositionalType = 'positionalAsObject'
 
   /**
    * Determines if the module should read from stdin and how. (__Defaults to `false`__)
@@ -59,7 +59,7 @@ export class Options {
    * - `loopLines` - Reads from stdin as a string and loops over each line.
    * - `loop` - Reads stdin and does `loopJson` with backup to `loopLines`.
    */
-  stdin?: StdinLoopType | boolean = false
+  stdin: StdinLoopType | boolean = false
 
   /**
    * Set the javscript runtime to evaluate subprocesses under, must expect appending js string.
@@ -70,24 +70,24 @@ export class Options {
    * `--disable-warning=ExperimentalWarning`
    * `-e`
    */
-  runtime?: string | string[] = undefined
+  runtime: undefined | string | string[] = undefined
 
-  runtimeKey?: string | 'node' | 'deno' = 'node'
-
-  /** path to dir or file */
-  path?: string = ''
+  runtimeKey: string | 'node' | 'deno' = 'node'
 
   /** path to dir or file */
-  __filename?: string = ''
+  path: undefined | string = undefined
 
-  importMeta?: ImportMeta
+  /** path to dir or file */
+  __filename: undefined | string = undefined
+
+  importMeta: undefined | ImportMeta = undefined
 
   /** current working directory */
-  cwd?: string
+  cwd: string | undefined = undefined
 
   /** command arguments */
-  argv?: string[]
+  argv: string[] | undefined = undefined
 
   /** runs the command as a subprocess */
-  subprocess?: boolean = false
+  subprocess: boolean = false
 }

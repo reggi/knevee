@@ -1,5 +1,5 @@
 export type RunInput = {
-  outputType: string | true
+  outputType: string | boolean
   flags: any
   args: string[]
   UserError: any
