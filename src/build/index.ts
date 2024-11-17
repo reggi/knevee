@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env npx tsx
 console.log('Entering file')
 import {json2md} from './json2md.ts'
 import {mdInclude} from './md-include.ts'

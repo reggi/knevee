@@ -1,4 +1,4 @@
-#!/usr/bin/env node ./src/bin.ts
+#!/usr/bin/env npx tsx ./src/bin.ts
 import {knevee} from '../../src/index.ts'
 
 export default knevee({

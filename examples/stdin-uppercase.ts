@@ -1,4 +1,4 @@
-#!/usr/bin/env node ./src/bin.ts
+#!/usr/bin/env npx tsx ./src/bin.ts
 export const description = 'Make Uppercase'
 export const positionals = '<name>'
 export const output = 'log'

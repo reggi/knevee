@@ -17,7 +17,7 @@ jobs:
         deno-version: [2.x]
 
     env:
-      NODE_OPTIONS: "--experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning"
+      NODE_OPTIONS: '--experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning'
 
     steps:
       - name: Checkout repository

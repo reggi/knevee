@@ -1,4 +1,4 @@
-#!/usr/bin/env node ./src/bin.ts
+#!/usr/bin/env npx tsx ./src/bin.ts
 export const description = 'Run command alpha'
 export const positionals = '<name> <age>'
 export const output = 'log'
