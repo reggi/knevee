@@ -5,25 +5,26 @@
     "type": "git",
     "url": "git+https://github.com/reggi/knevee.git"
   },
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
+  "main": "./dist/index.cjs",
   "bin": {
     "knevee": "dist/bin.cjs"
   },
-  "type": "module",
-  "main": "./dist/index.cjs",
   "scripts": {
-    "generate": "./src/build/index.ts",
     "build": "npm run generate && tsup --clean ./src/index.ts ./src/bin.ts --format esm,cjs --dts",
+    "generate": "./src/build/index.ts",
     "report": "open ./coverage/index.html",
     "style": "prettier --check .",
     "style:fix": "prettier --write .",
     "test": "npm run generate && mcr --import tsx tsx --experimental-test-snapshots --test",
-    "test:snap": "npm run test -- --test-update-snapshots"
+    "test:snap": "npm run test -- --test-update-snapshots",
+    "update": "npm run generate && npm run build && npm run style:fix && sort-package-json"
   },
   "prettier": "@github/prettier-config",
   "dependencies": {
@@ -36,6 +37,7 @@
     "mock-fs": "^5.4.1",
     "monocart-coverage-reports": "^2.11.2",
     "prettier": "^3.2.5",
+    "sort-package-json": "^2.10.1",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
