@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx ./src/bin.ts
+#!/usr/bin/env node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin.ts
 const {knevee} = require('../dist/index.cjs')
 
 module.exports = knevee({

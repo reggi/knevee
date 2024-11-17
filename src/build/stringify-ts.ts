@@ -1,5 +1,5 @@
-#!/usr/bin/env npx tsx ./src/bin.ts
-import {KneveeOptions} from '..'
+#!/usr/bin/env node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning ./src/bin.ts
+import type {KneveeOptions} from '../index.ts'
 import ts from 'typescript'
 import fs from 'node:fs/promises'
 import path from 'node:path'

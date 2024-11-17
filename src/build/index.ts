@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning
 import {json2md} from './json2md.ts'
 import {mdInclude} from './md-include.ts'
 import {stringifyTypescript} from './stringify-ts.ts'

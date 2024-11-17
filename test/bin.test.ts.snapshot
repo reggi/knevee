@@ -23,6 +23,7 @@ gamma
 `;
 
 exports[`Command output consistency tests > should match snapshot 13`] = `
+gamma
 
 `;
 
