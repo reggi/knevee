@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx ./src/bin.ts
+#!/usr/bin/env npx tsx ./src/bin.ts
 
 exports.command = {
   __filename,

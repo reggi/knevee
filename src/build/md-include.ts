@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx ./src/bin.ts
+#!/usr/bin/env npx tsx ./src/bin.ts
 import {type KneveeOptions} from '../index.ts'
 import {promisify} from 'node:util'
 import {exec} from 'node:child_process'

@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx ./src/bin.ts
+#!/usr/bin/env npx tsx ./src/bin.ts
 import {KneveeOptions} from '../index.ts'
 import fs from 'node:fs/promises'
 import path from 'node:path'

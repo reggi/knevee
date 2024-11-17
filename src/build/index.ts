@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env npx tsx
 import {json2md} from './json2md.ts'
 import {mdInclude} from './md-include.ts'
 import {stringifyTypescript} from './stringify-ts.ts'

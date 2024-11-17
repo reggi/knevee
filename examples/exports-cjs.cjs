@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx ./src/bin.ts
+#!/usr/bin/env npx tsx ./src/bin.ts
 const description = 'Run a command gamma'
 const positionals = '<name> <age>'
 const output = 'log'
