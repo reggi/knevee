@@ -1,3 +1,4 @@
+.github
 coverage
 envdef.json
 eslint.config.js
