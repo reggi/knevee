@@ -10,7 +10,7 @@ import {handleOutput} from './output.ts'
 import {UserError} from './user-error.ts'
 import {debug} from '../utils/debug.ts'
 import {assemblePositials} from '../config/parse-args.ts'
-import {ValidatedArgv} from '../positional/validate.ts'
+import type {ValidatedArgv} from '../positional/validate.ts'
 
 export async function evaluate(config: ParsedOptions, argv: string[]) {
   const logger = debug('knevee:evaluate')

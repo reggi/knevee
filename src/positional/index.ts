@@ -1,8 +1,7 @@
 import {splitArgv} from '../utils/split-argv.ts'
 import {stdStrings} from '../utils/std-strings.ts'
-
 import {parseRule} from './parse-rule.ts'
-import {ValidatedArgv, validatePositionals} from './validate.ts'
+import {type ValidatedArgv, validatePositionals} from './validate.ts'
 import {asObject} from './object.ts'
 import {asNamedObject} from './name-object.ts'
 
