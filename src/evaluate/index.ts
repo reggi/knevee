@@ -11,6 +11,8 @@ import {UserError} from './user-error.ts'
 import {debug} from '../utils/debug.ts'
 import {assemblePositials} from '../config/parse-args.ts'
 import type {ValidatedArgv} from '../positional/validate.ts'
+import {fixArgv} from '../config/fix-argv.ts'
+import {fixFlags} from '../config/fix-flags.ts'
 
 export async function evaluate(config: ParsedOptions, argv: string[]) {
   const logger = debug('knevee:evaluate')
@@ -18,14 +20,14 @@ export async function evaluate(config: ParsedOptions, argv: string[]) {
 
   const parsedArgs = parseArgs({
     tokens: true,
-    args: argv,
+    args: fixArgv(argv),
     options: config.flags,
     strict: config.useStrictFlags,
     allowPositionals: config.positionals.hasRules,
   })
 
   const positionals = assemblePositials(parsedArgs.tokens)
-  const flags = parsedArgs.values
+  const flags = fixFlags(parsedArgs.values)
 
   if (flags.help) {
     logger('help flag is set, printing help text and exiting')
@@ -54,7 +56,7 @@ export async function evaluate(config: ParsedOptions, argv: string[]) {
     const jsCode = evalString({
       path: config.path,
       outputType: config.outputType,
-      flags: config.flags,
+      flags,
       args,
     })
     return await spawnJsRuntime(runtime, jsCode)

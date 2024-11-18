@@ -6,6 +6,9 @@ import {parseArgsBeforePositional} from './parse-args.ts'
 import {kneveeFlags} from './knevee-flags.ts'
 import {absPath} from './abs-path.ts'
 import pkg from '../../package.json' with {type: 'json'}
+import {debug} from '../utils/debug.ts'
+import {fixArgv} from './fix-argv.ts'
+import {fixFlags} from './fix-flags.ts'
 
 export type Config = {
   cwd: string
@@ -16,15 +19,21 @@ export type Config = {
 }
 
 export function configEntry(opt?: {cwd?: string; argv?: string[]}) {
+  const logger = debug('knevee:configEntry')
+  logger('start')
   const runtimeKey = process.argv[0].split('/').pop()
-  const argvOne = opt?.argv || process.argv.slice(2)
+  // aparently flag args with spaces get split up
+  const argvOne = fixArgv(opt?.argv || process.argv.slice(2))
 
-  const {values: flags, positionals: argv} = parseArgsBeforePositional({
+  let {values: flags, positionals: argv} = parseArgsBeforePositional({
     args: argvOne,
     options: kneveeFlags,
     strict: true,
     allowPositionals: true,
   })
+
+  // have to remove the quotes from the flags
+  flags = fixFlags(flags)
 
   if (flags.version) {
     console.log(pkg.version)

@@ -105,4 +105,20 @@ describe('parseArgsBeforePositional', () => {
     })
     assert.deepStrictEqual(result, {values: {}, positionals: ['script.js', '--env', 'production']})
   })
+
+  it('handles flag with string value', () => {
+    const result = parseArgsBeforePositional({
+      args: ['--runtime', 'node -e', 'script.js'],
+      allowPositionals: true,
+      options: {
+        runtime: {type: 'string'},
+      },
+    })
+    assert.deepStrictEqual(result, {
+      values: {
+        runtime: 'node -e',
+      },
+      positionals: ['script.js'],
+    })
+  })
 })
