@@ -9,21 +9,18 @@ import {absPath} from './abs-path.ts'
 
 export type Config = {
   cwd: string
-  runtime: string | string[] | undefined
-  target: string | undefined
-  help?: boolean | undefined
+  runtime?: string | string[]
+  target?: string
+  help?: boolean
   argv: string[]
 }
 
 export function configEntry(opt?: {cwd?: string; argv?: string[]}) {
   const runtimeKey = process.argv[0].split('/').pop()
   const argvOne = opt?.argv || process.argv.slice(2)
-  const [beforeDoubleDash, afterDoubleDash] = splitArgv(argvOne)
-  const runtime = afterDoubleDash ? beforeDoubleDash : undefined
-  const argvTwo = afterDoubleDash ? afterDoubleDash : beforeDoubleDash
 
   const {values: flags, positionals: argv} = parseArgsBeforePositional({
-    args: argvTwo,
+    args: argvOne,
     options: kneveeFlags,
     strict: true,
     allowPositionals: true,
@@ -44,5 +41,5 @@ export function configEntry(opt?: {cwd?: string; argv?: string[]}) {
   const cwd = absPath(flags?.cwd || opt?.cwd || process.cwd())
 
   const target = argv.shift()
-  return {...flags, cwd, runtime: runtime || flags.runtime, target, argv, runtimeKey}
+  return {...flags, cwd, target, argv, runtimeKey}
 }

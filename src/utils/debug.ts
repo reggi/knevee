@@ -17,7 +17,7 @@ function stringToColorCode(str) {
 export function debug(namespace: string) {
   return function (message: string, ...args: any[]) {
     if (process.env.DEBUG && namespace.startsWith(process.env.DEBUG)) {
-      console.log(`${stringToColorCode(namespace)}`, util.format(message, ...args))
+      process.stdout.write(`${stringToColorCode(namespace)} ${util.format(message, ...args)}\n`)
     }
   }
 }

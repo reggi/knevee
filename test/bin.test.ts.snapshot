@@ -180,6 +180,21 @@ gamma
 
 `;
 
+exports[`Command output consistency tests > should match snapshot 41`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 42`] = `
+gamma
+
+`;
+
+exports[`Command output consistency tests > should match snapshot 43`] = `
+gamma
+
+`;
+
 exports[`Command output consistency tests > should match snapshot 5`] = `
 MEOW
 WOOF

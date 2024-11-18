@@ -41,6 +41,7 @@ function knevee(opt?: KneveeOptions) {
         return mod.default()
       }
       const options = parseOptions({...config, ...cmd, ...mod})
+      if (nullifyRuntime) options.runtime = undefined
       const results = await evaluate(options, argv)
       logger('end')
       return results

@@ -24,6 +24,11 @@ describe('dirscan', () => {
     mockFs.restore()
   })
 
+  it('should handle negative depth', async () => {
+    const result = await dirscan('/test', -1)
+    assert.deepEqual(result.sort(), [].sort())
+  })
+
   it('should list all files in a directory excluding dotfiles and include nested files', async () => {
     const expected = ['/test/file.ts', '/test/anotherfile.ts', '/test/nested/fileInNested.ts']
     const result = await dirscan('/test')

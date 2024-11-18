@@ -37,4 +37,6 @@ test('parsePositionals', () => {
     _: ['john', '23'],
   })
   assert.throws(() => parsePositionals('<name> [age]', 'x' as any).validate(['john', '23']))
+
+  assert.throws(() => parsePositionals('<name> <age>').validate(['john', '23', '--']))
 })

@@ -132,6 +132,10 @@ await invalid([
   'tsx ./src/bin.ts ./examples exports tea',
   'tsx ./src/bin.ts ./examples/exports.ts tea',
   './examples/exports.ts tea',
+  // exports-symlink
+  'tsx ./src/bin.ts ./examples exports-symlink tea',
+  'tsx ./src/bin.ts ./examples/exports-symlink.ts tea',
+  './examples/exports-symlink.ts tea',
   // extra
   'tsx ./src/bin.ts ./examples tea', // index
   'tsx ./src/bin.ts ./examples/dep-check.ts tea', // dep-check
@@ -174,6 +178,10 @@ await valid([
   'tsx ./src/bin.ts ./examples exports tea 32',
   'tsx ./src/bin.ts ./examples/exports.ts tea 32',
   './examples/exports.ts tea 32',
+  // exports-symlink
+  'tsx ./src/bin.ts ./examples exports-symlink tea 32',
+  'tsx ./src/bin.ts ./examples/exports-symlink.ts tea 32',
+  './examples/exports-symlink.ts tea 32',
   // extra
   'tsx ./src/bin.ts ./examples tea 32', // index
   'tsx ./src/bin.ts ./examples/dep-check.ts tea 32', // dep-check

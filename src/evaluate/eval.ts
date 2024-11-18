@@ -5,7 +5,7 @@ export async function spawnJsRuntime(runtime: string[], jsCode: string) {
   const main = clonedRuntime.shift()
   if (!main) throw new Error('No runtime provided')
 
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<number | null>((resolve, reject) => {
     const child = spawn(main, [...clonedRuntime, jsCode], {
       stdio: 'inherit',
     })
@@ -13,11 +13,7 @@ export async function spawnJsRuntime(runtime: string[], jsCode: string) {
     child.on('error', reject)
 
     child.on('exit', code => {
-      if (code === 0) {
-        resolve()
-      } else {
-        process.exit(code ?? 1)
-      }
+      resolve(code)
     })
   })
 }
