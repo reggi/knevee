@@ -29,8 +29,6 @@ export class Options {
   useUnshiftStdin: boolean = true
   /** When iterating stdin loop uses `Promise.allSettled` instead of `Promise.all`. (__Defaults to `false`__) */
   useLoopMethod: string | 'allSettled' | 'all' | 'for-await' = 'for-await'
-  /** Args to function is as single object. (__Defaults to `false`__) */
-  useArgsObject: boolean = false
 
   /**
    * The type of output that the module should produce. (__Defaults to `log`__)
@@ -49,7 +47,7 @@ export class Options {
    * - `positionalNamedObject` - Uses name in positionals as key in args.
    * - `positionalAsArray` - Uses escalating `_` as the key separating `--` in positionals.
    */
-  positionalType: PositionalType = 'positionalAsObject'
+  positionalType: PositionalType | undefined = undefined
 
   /**
    * Determines if the module should read from stdin and how. (__Defaults to `false`__)

@@ -4,14 +4,17 @@ import userError from '../artifacts/user-error.json' with {type: 'json'}
 import run from '../artifacts/run.json' with {type: 'json'}
 
 export type EvalStringInput = {
-  path: string
+  path?: string
   outputType: string | boolean
   flags: any
   args: string[]
 }
 
-export const evalString = ({path, outputType, flags, args}: EvalStringInput) =>
-  [
+export const evalString = ({path, outputType, flags, args}: EvalStringInput) => {
+  if (!path) {
+    throw new Error('No path provided for subprocess')
+  }
+  return [
     output.code,
     importer.code,
     userError.code,
@@ -25,6 +28,7 @@ export const evalString = ({path, outputType, flags, args}: EvalStringInput) =>
   flags: ${JSON.stringify(flags)}
 }))`,
   ].join('\n')
+}
 
 // console.log(evalString({
 //   path: './examples/alpha.ts',

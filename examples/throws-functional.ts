@@ -12,6 +12,9 @@ export default knevee({
       type: 'string',
       description: 'meow',
     },
+    woof: {
+      type: 'string',
+    },
   },
   default: function (...args) {
     throw new Error('this is a user error')

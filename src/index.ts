@@ -7,11 +7,9 @@ import {configEntry} from './config/index.ts'
 import {debug} from './utils/debug.ts'
 import {UserError} from './evaluate/user-error.ts'
 
-const id = Symbol('knevee')
-let count = -1
-
 export type KneveeOptions = Partial<Options>
 
+let count = -1
 function knevee(opt?: KneveeOptions) {
   count = count + 1
   const logger = debug(`knevee:${count}`)
@@ -36,11 +34,7 @@ function knevee(opt?: KneveeOptions) {
       const {command: cmd, argv} = await command(config)
       logger('importing the file for metadata')
       const mod = await importer(cmd.path)
-      if (mod.id === id) {
-        logger('exports knevee function')
-        return mod.default()
-      }
-      const options = parseOptions({...config, ...cmd, ...mod})
+      const options = parseOptions({...opt, ...config, ...cmd, ...mod})
       if (nullifyRuntime) options.runtime = undefined
       const results = await evaluate(options, argv)
       logger('end')
@@ -53,7 +47,7 @@ function knevee(opt?: KneveeOptions) {
       } else {
         logger('KNEVEE_THROW=%s', process.env.KNEVEE_THROW)
         if (e instanceof Error) {
-          if (process.env.KNEVEE_THROW) {
+          if (process.env.KNEVEE_THROW === 'true') {
             throw e
           }
           console.error(e.message)
@@ -64,12 +58,12 @@ function knevee(opt?: KneveeOptions) {
   }
   if (filename === process.argv[1]) {
     logger(`filename and process.argv[1] are the same, running executable`)
-    executable({nullifyRuntime: true})
+    executable({nullifyRuntime: true}).catch(() => {
+      process.exit(1)
+    })
   }
   logger('end')
   return {...opt, executable}
 }
-
-knevee.id = id
 
 export {knevee}

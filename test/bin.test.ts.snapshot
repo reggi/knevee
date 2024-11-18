@@ -1,220 +1,38 @@
-exports[`Command output consistency tests > should match snapshot 1`] = `
-WOOF
+exports[`command help > should match snapshot 1`] = `
+Usage: gamma <name> <age>
+Run a command gamma
+    --meow  <string> meow
+    --woof  <string>
+    --help           Prints command help message
 
 `;
 
-exports[`Command output consistency tests > should match snapshot 10`] = `
+exports[`command help > should match snapshot 2`] = `
+Usage: gamma <name> <age>
+Run a command gamma
+    --meow  <string> meow
+    --woof  <string>
+    --help           Prints command help message
+
+`;
+
+exports[`command help > should match snapshot 3`] = `
+Usage: gamma <name> <age>
+Run a command gamma
+    --meow  <string> meow
+    --woof  <string>
+    --help           Prints command help message
+
+`;
+
+exports[`dir list no index > should match snapshot 1`] = `
 alpha     Run command alpha     
 beta      Run command beta      
 gamma     Run command gamma     
 
 `;
 
-exports[`Command output consistency tests > should match snapshot 11`] = `
-alpha     Run command alpha     
-beta      Run command beta      
-gamma     Run command gamma     
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 12`] = `
-alpha     Run command alpha     
-beta      Run command beta      
-gamma     Run command gamma     
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 13`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 14`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 15`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 16`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 17`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 18`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 19`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 2`] = `
-WOOF
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 20`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 21`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 22`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 23`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 24`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 25`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 26`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 27`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 28`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 29`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 3`] = `
-WOOF
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 30`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 31`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 32`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 33`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 34`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 35`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 36`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 37`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 38`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 39`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 4`] = `
-MEOW
-WOOF
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 40`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 41`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 42`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 43`] = `
-gamma
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 5`] = `
-MEOW
-WOOF
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 6`] = `
-MEOW
-WOOF
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 7`] = `
-alpha     Run command alpha     
-beta      Run command beta      
-gamma     Run command gamma     
-
-`;
-
-exports[`Command output consistency tests > should match snapshot 8`] = `
+exports[`show knevee help > should match snapshot 1`] = `
 Usage: knevee [runtime] [--] [flags] <dir-or-file> [subcommands] [command-args...]
 A command line tool that runs other command line tools
     --cwd  <string>     The current working directory
@@ -223,9 +41,218 @@ A command line tool that runs other command line tools
 
 `;
 
-exports[`Command output consistency tests > should match snapshot 9`] = `
+exports[`subcommand match > should match snapshot 1`] = `
 alpha     Run command alpha     
 beta      Run command beta      
 gamma     Run command gamma     
+
+`;
+
+exports[`subcommand match > should match snapshot 2`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`subcommand match > should match snapshot 3`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`subcommand match > should match snapshot 4`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`successful command > should match snapshot 1`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 10`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 11`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 12`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 13`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 14`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 15`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 16`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 17`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 18`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 19`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 2`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 20`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 21`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 22`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 23`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 24`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 25`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 26`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 27`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 28`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 29`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 3`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 30`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 31`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 4`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 5`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 6`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 7`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 8`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 9`] = `
+gamma
+
+`;
+
+exports[`vaid stdin > should match snapshot 1`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`vaid stdin > should match snapshot 2`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`vaid stdin > should match snapshot 3`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`valid stdout > should match snapshot 1`] = `
+WOOF
+
+`;
+
+exports[`valid stdout > should match snapshot 2`] = `
+WOOF
+
+`;
+
+exports[`valid stdout > should match snapshot 3`] = `
+WOOF
 
 `;

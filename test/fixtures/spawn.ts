@@ -1,5 +1,5 @@
 import {spawn, type SpawnOptionsWithoutStdio} from 'child_process'
-import {stdStrings} from '../../src/utils/std-strings'
+import {stdStrings} from '../../src/utils/std-strings.ts'
 
 /**
  * Extracts leading environment variables from the command parts.

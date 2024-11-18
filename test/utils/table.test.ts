@@ -60,7 +60,7 @@ describe('table', function () {
       ['Alice', '30'],
       ['Bob', '25'],
     ]
-    const optsFunction = columnLengths => ({
+    const optsFunction = () => ({
       gap: [2, 3],
       truncate: [4, 2],
     })

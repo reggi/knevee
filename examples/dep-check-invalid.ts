@@ -8,6 +8,9 @@ export const flags = {
     type: 'string',
     description: 'meow',
   },
+  woof: {
+    type: 'string',
+  },
 }
 export default function () {
   return 'gamma'

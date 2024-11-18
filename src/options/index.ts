@@ -9,11 +9,11 @@ import {flagTable} from '../utils/flag-table.ts'
 import runtimes from './runtimes.ts'
 
 function getName(mod: Options): string[] {
-  let name = Array.isArray(mod.name) ? mod.name : mod.name ? [mod.name] : []
-  if (mod.path && !name.length) {
+  if (typeof mod.name === 'string') return [mod.name]
+  let name: string[] = mod.name
+  if (mod.path && !mod.name.length) {
     name = [path.basename(mod.path, path.extname(mod.path))]
   }
-  if (!name.length) throw new Error('Command must have a name')
   return name
 }
 
@@ -27,7 +27,7 @@ export function parseOptions(options?: Partial<Options>) {
   const dependencies = stdStrings(mod.dependencies)
   const positionals = parsePositionals(mod.positionals, mod.positionalType)
   const flags = {
-    ...(mod.flags ?? {}),
+    ...mod.flags,
     ...(mod.output === 'bash' ? bashFlags : {}),
     ...(mod.output === 'bool' ? boolFlags : {}),
     ...helpFlags,

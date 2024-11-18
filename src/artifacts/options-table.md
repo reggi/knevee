@@ -9,7 +9,6 @@
 | useStrictFlags | boolean | Specifies if the flags should be strictly validated against the provided flags definitions. (Defaults to `true`) |
 | useUnshiftStdin | boolean | Determines if stdin should be unshifted into args. (__Defaults to `true`__) |
 | useLoopMethod | string \| allSettled \| all \| for-await | When iterating stdin loop uses `Promise.allSettled` instead of `Promise.all`. (__Defaults to `false`__) |
-| useArgsObject | boolean | Args to function is as single object. (__Defaults to `false`__) |
 | output | string \| boolean | The type of output that the module should produce. (__Defaults to `log`__) |
 |  |  | - `bool` - Outputs the result as a boolean value, adds `--emoji`, `--int` flags to command. |
 |  |  | - `json` - Outputs the result as a JSON string, pretty prints the result. |
@@ -18,7 +17,7 @@
 |  |  | - `stdout` - Prints the value. |
 |  |  | - `bash` - Expects function to return string, and executes, adds `--print` flag to the command, which prints the string. |
 |  |  | - `false` - Disables output. |
-| positionalType | PositionalType | Describes how positional rules translate to function arguments. (__Defaults to `positionalAsObject`__) |
+| positionalType | PositionalType \| undefined | Describes how positional rules translate to function arguments. (__Defaults to `positionalAsObject`__) |
 |  |  | - `positionalNamedObject` - Uses name in positionals as key in args. |
 |  |  | - `positionalAsArray` - Uses escalating `_` as the key separating `--` in positionals. |
 | stdin | StdinLoopType \| boolean | Determines if the module should read from stdin and how. (__Defaults to `false`__) |

@@ -12,6 +12,9 @@ export default knevee({
       type: 'string',
       description: 'meow',
     },
+    woof: {
+      type: 'string',
+    },
   },
   default: function (...args) {
     return 'gamma'

@@ -1,10 +1,6 @@
 import {describe, it, before} from 'node:test'
-import {exec} from 'node:child_process'
-import {promisify} from 'node:util'
 import {strict as assert} from 'node:assert'
 import {spawnAsync} from './fixtures/spawn.ts'
-
-const execPromise = promisify(exec)
 
 function withStdin(command: string, stdin: string[]) {
   return {command, stdin}
@@ -17,8 +13,8 @@ function removeDebugFromStdout(stdout: string) {
     .join('\n')
 }
 
-export const valid = (commands: (string | {command: string; stdin: string[]})[]) =>
-  describe(`Command output consistency tests`, () => {
+export const valid = (name: string, commands: (string | {command: string; stdin: string[]})[]) =>
+  describe(name, () => {
     const out: string[] = []
     const serialzier = {serializers: [v => v.replaceAll('\\n|\n', /\n/)]}
 
@@ -54,8 +50,8 @@ export const valid = (commands: (string | {command: string; stdin: string[]})[])
     })
   })
 
-export const invalid = (commands: string[]) =>
-  describe(`Commands throw`, () => {
+export const invalid = (name: string, commands: string[]) =>
+  describe(name, () => {
     it('should throw', async () => {
       await Promise.all(
         commands.map(async command => {
@@ -70,36 +66,36 @@ export const invalid = (commands: string[]) =>
     })
   })
 
-await invalid([
+await invalid('throws on depcheck failure', [
   'tsx ./src/bin.ts ./examples/dep-check-invalid.ts tea 32', // dep-check
 ])
 
-await valid([
+await valid('valid stdout', [
   'tsx ./src/bin.ts ./examples stdin-uppercase woof',
   'tsx ./src/bin.ts ./examples/stdin-uppercase.ts woof',
   './examples/stdin-uppercase.ts woof',
 ])
 
-await valid([
+await valid('vaid stdin', [
   withStdin('tsx ./src/bin.ts ./examples stdin-uppercase', ['meow', 'woof']),
   withStdin('tsx ./src/bin.ts ./examples/stdin-uppercase.ts', ['meow', 'woof']),
   withStdin('./examples/stdin-uppercase.ts', ['meow', 'woof']),
 ])
 
 // dir list example
-await valid(['tsx ./src/bin.ts ./examples/no-index'])
+await valid('dir list no index', ['tsx ./src/bin.ts ./examples/no-index'])
 
 // help example
-await valid(['tsx ./src/bin.ts --help'])
+await valid('show knevee help', ['tsx ./src/bin.ts --help'])
 
 // no target
-await invalid(['tsx ./src/bin.ts'])
+await invalid('no knevee target', ['tsx ./src/bin.ts'])
 
 // no command found
-await invalid([`tsx ./src/bin.ts ./examples/empty-dir`])
+await invalid('no command found', [`tsx ./src/bin.ts ./examples/empty-dir`])
 
 // subcommand match
-await valid([
+await valid('subcommand match', [
   'tsx ./src/bin.ts ./examples/no-index',
   'tsx ./src/bin.ts ./examples/no-index xxx',
   'tsx ./src/bin.ts --cwd=examples/no-index',
@@ -107,13 +103,25 @@ await valid([
 ])
 
 // UserError
-await invalid(['tsx ./src/bin.ts ./examples/throws.ts xxx 111', 'tsx ./examples/throws-functional.ts xxx 111'])
+await invalid('user error', [
+  'tsx ./src/bin.ts ./examples/throws.ts xxx 111',
+  'tsx ./examples/throws-functional.ts xxx 111',
+])
 
 // knevee error
-await invalid([`KNEVEE_THROW=true tsx ./src/bin.ts ./examples/exports.ts`])
+await invalid('knevee error', [`KNEVEE_THROW=true tsx ./src/bin.ts ./examples/exports.ts`])
+
+// knevee error
+await invalid('knevee error', [`KNEVEE_THROW=true tsx ./src/bin.ts ./examples/empty.ts`])
+
+await valid('command help', [
+  'tsx ./src/bin.ts ./examples functional --help',
+  'tsx ./src/bin.ts ./examples/functional.ts --help',
+  './examples/functional.ts --help',
+])
 
 // normal kneve error
-await invalid([
+await invalid('command arg error', [
   // ----- esm -----
   // command
   'tsx ./src/bin.ts ./examples command tea',
@@ -159,7 +167,7 @@ await invalid([
   './examples/functional-cjs.cjs tea',
 ])
 
-await valid([
+await valid('successful command', [
   // ----- esm -----
   // command
   'tsx ./src/bin.ts ./examples command tea 32',

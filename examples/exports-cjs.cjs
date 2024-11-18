@@ -7,6 +7,9 @@ const flags = {
     type: 'string',
     description: 'meow',
   },
+  woof: {
+    type: 'string',
+  },
 }
 function gamma() {
   return 'gamma'

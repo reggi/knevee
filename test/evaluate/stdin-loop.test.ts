@@ -1,6 +1,6 @@
 import {strict as assert} from 'node:assert'
 import {describe, it} from 'node:test'
-import {validateStdinType, stdinLoop} from '../../src/evaluate/stdin-loop.js'
+import {validateStdinType, stdinLoop} from '../../src/evaluate/stdin-loop.ts'
 
 describe('validateStdinType', () => {
   it('should validate standard input types', () => {

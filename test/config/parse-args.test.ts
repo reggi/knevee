@@ -1,6 +1,22 @@
-import {parseArgsBeforePositional} from '../../src/config/parse-args.ts'
+import {assemblePositials, parseArgsBeforePositional} from '../../src/config/parse-args.ts'
 import {describe, it} from 'node:test'
 import assert from 'node:assert'
+
+describe('assemblePositials Function', () => {
+  it('should correctly process tokens into strings', () => {
+    const tokens = [
+      {kind: 'positional', value: 'file.txt'},
+      {kind: 'option', value: '-v'},
+      {kind: 'option-terminator'},
+      {kind: 'positional', value: 'log.txt'},
+    ]
+
+    const expected = ['file.txt', '--', 'log.txt']
+    const result = assemblePositials(tokens)
+
+    assert.deepStrictEqual(result, expected)
+  })
+})
 
 describe('parseArgsBeforePositional', () => {
   it('parses flags before the first positional argument', () => {

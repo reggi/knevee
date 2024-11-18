@@ -10,6 +10,7 @@ import {handleOutput} from './output.ts'
 import {UserError} from './user-error.ts'
 import {debug} from '../utils/debug.ts'
 import {assemblePositials} from '../config/parse-args.ts'
+import {ValidatedArgv} from '../positional/validate.ts'
 
 export async function evaluate(config: ParsedOptions, argv: string[]) {
   const logger = debug('knevee:evaluate')
@@ -39,24 +40,17 @@ export async function evaluate(config: ParsedOptions, argv: string[]) {
   const loopArgs = stdin.map((stdin, index) => {
     const clonedPositionals = [...positionals]
     logger('stdin loop %d %s', index, stdin)
-    if (config.useArgsObject === false) {
-      if (stdin && config.useUnshiftStdin === true) {
-        clonedPositionals.push(stdin)
-      }
-      const {_, ...restFlags} = config.positionals.validate(clonedPositionals)
-      logger('using object')
-      return [..._, {stdin, ...restFlags}]
+    if (stdin && config.useUnshiftStdin === true) {
+      clonedPositionals.push(stdin)
     }
-    logger('using spread array')
-    return [stdin, ...config.positionals.validate(positionals)]
+    const [primary, positionalFlags] = config.positionals.validate(clonedPositionals)
+    const out: [...ValidatedArgv, Record<string, any>] = [...primary, {...positionalFlags, ...flags}]
+    return out
   })
 
   const runtime = config.runtime && config.runtime.length ? config.runtime : undefined
 
-  const subprocess = async (args: string[]) => {
-    if (!config.path) {
-      throw new Error('No path provided for subprocess')
-    }
+  const subprocess = async (args: any[]) => {
     const jsCode = evalString({
       path: config.path,
       outputType: config.outputType,
@@ -66,7 +60,7 @@ export async function evaluate(config: ParsedOptions, argv: string[]) {
     return await spawnJsRuntime(runtime, jsCode)
   }
 
-  const mainProcess = async (args: string[]) => {
+  const mainProcess = async (args: any[]) => {
     return run({
       outputType: config.outputType,
       handleOutput,
@@ -81,6 +75,7 @@ export async function evaluate(config: ParsedOptions, argv: string[]) {
   if (runtime) logger('runtime detected as "%s"', runtime.join(' '))
 
   let results: (number | null)[] = []
+  logger('using loop method "%s"', config.useLoopMethod)
   if (config.useLoopMethod === 'for-await') {
     for (const args of loopArgs) {
       results.push(await method(args))
