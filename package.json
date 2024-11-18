@@ -14,7 +14,8 @@
   },
   "main": "./dist/index.cjs",
   "bin": {
-    "knevee": "dist/bin.cjs"
+    "knevee": "./dist/bin.cjs",
+    "dknevee": "knevee"
   },
   "scripts": {
     "all": "npm run update && npm run test",

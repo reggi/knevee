@@ -1,4 +1,30 @@
-#!/usr/bin/env -S node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning
-import {knevee} from './src/index.ts'
+#!/bin/bash
+# Resolve the full path to the script handling symlinks if necessary
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  TARGET="$(readlink "$SOURCE")"
+  if [[ $TARGET == /* ]]; then
+    SOURCE="$TARGET"
+  else
+    DIR="$( dirname "$SOURCE" )"
+    SOURCE="$DIR/$TARGET"
+  fi
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-knevee().executable()
+# Define the default runtime if not provided
+DEFAULT_RUNTIME="node --experimental-strip-types --experimental-detect-module --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning"
+
+# Split the RUNTIME variable into an array to handle parameters
+RUNTIME_ARRAY=($KNEVEE_RUNTIME)
+
+# If the array is empty, use the default runtime
+if [ ${#RUNTIME_ARRAY[@]} -eq 0 ]; then
+  RUNTIME_ARRAY=($DEFAULT_RUNTIME)
+fi
+
+# Adjust the path to point directly to your actual script, ensure this path is correct
+MAIN_SCRIPT="$DIR/dist/bin.cjs" # Modify this according to your actual file location
+
+# Execute the CLI script with the selected runtime and pass all additional CLI arguments
+exec "${RUNTIME_ARRAY[@]}" "$MAIN_SCRIPT" "$@"
