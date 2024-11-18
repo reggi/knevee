@@ -38,6 +38,7 @@ A command line tool that runs other command line tools
     --cwd  <string>     The current working directory
     --runtime  <string> The runtime to use
     --help              Prints this help
+    --version           Prints the version
 
 `;
 

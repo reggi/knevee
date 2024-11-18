@@ -1,4 +1,3 @@
-import {splitArgv} from '../utils/split-argv.ts'
 import {table} from '../utils/table.ts'
 import {help} from '../utils/help.ts'
 import {flagTable} from '../utils/flag-table.ts'
@@ -6,6 +5,7 @@ import {stdStrings} from '../utils/std-strings.ts'
 import {parseArgsBeforePositional} from './parse-args.ts'
 import {kneveeFlags} from './knevee-flags.ts'
 import {absPath} from './abs-path.ts'
+import pkg from '../../package.json' with {type: 'json'}
 
 export type Config = {
   cwd: string
@@ -25,6 +25,11 @@ export function configEntry(opt?: {cwd?: string; argv?: string[]}) {
     strict: true,
     allowPositionals: true,
   })
+
+  if (flags.version) {
+    console.log(pkg.version)
+    return process.exit(0)
+  }
 
   if (flags.help) {
     console.log(
