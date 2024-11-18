@@ -1,6 +1,6 @@
 {
   "name": "knevee",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reggi/knevee.git"
@@ -12,65 +12,43 @@
       "require": "./dist/index.cjs"
     }
   },
+  "main": "./dist/index.cjs",
   "bin": {
-    "knevee": "dist/bin/knevee.cjs",
-    "knevee-dir": "dist/bin/knevee-dir.cjs",
-    "knevee-file": "dist/bin/knevee-file.cjs"
+    "knevee": "dist/bin.cjs"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "build": "npm run build:handle-value && npm run build:tsup && npm run build:readme && npm run build:bats && npm run style:fix",
-    "build:bats": "rm -rf ./test/batgen && cat ./test/spec.json | tsx ./scripts/batgen.ts",
-    "build:handle-value": "tsx ./scripts/build-handle-value.ts",
-    "build:readme": "npm run script:md-include README.md",
-    "build:tsup": "rm -rf ./coverage && tsup --clean ./src/index.ts ./src/bin/knevee.ts ./src/bin/knevee-dir.ts ./src/bin/knevee-file.ts --format esm,cjs --dts",
-    "build:tsup:watch": "npm run build:tsup -- --watch",
-    "doc-options-json": "deno doc --json ./src/options.ts",
-    "doc-options-md": "npm -s run doc-options-json | npm -s run script:doc2json | npm -s run script:json2markdown",
-    "reinstall": "npm run build && npm i . -g",
-    "report": "npx c8 report --check-coverage --branches 70 --functions 70 --lines 70 --statements 70",
-    "script:build-handle-value": "tsx ./scripts/build-handle-value.ts",
-    "script:doc2json": "tsx ./scripts/doc2json.ts",
-    "script:json2markdown": "tsx ./scripts/json2markdown.ts",
-    "script:markdown2json": "tsx ./scripts/markdown2json.ts",
-    "script:md-include": "tsx ./scripts/md-include.ts",
-    "script:singlebats": "tsx ./scripts/singlebats.ts",
+    "build": "tsup --clean ./src/index.ts ./src/bin.ts --format esm,cjs --dts",
+    "generate": "./src/build/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "report": "open ./coverage/index.html",
     "style": "prettier --check .",
     "style:fix": "prettier --write .",
-    "test": "npm run test:no-report && npm run report",
-    "test:bats": "npm run build:bats && npm run test:just-bats",
-    "test:bats:file": "./test/bats/bin/bats",
-    "test:bats:snap": "rm -rf ./snapshots && npm run test:bats",
-    "test:just-bats": "./test/bats/bin/bats test/batgen/*.bats",
-    "test:no-report": "rm -rf ./coverage && npm run typecheck && npm run test:bats && npm run test:node",
-    "test:node": "npm run test:node:file --  \"**/*.test.ts\"",
-    "test:node:file": "c8 --reporter=none --clean=false tsx --test",
-    "test:snap": "npm run build && rm -rf ./snapshots && npm run test",
-    "typecheck": "tsc"
+    "test": "npm run style && npm run typecheck && npm run generate && mcr --import tsx tsx --experimental-test-snapshots --test",
+    "test:snap": "npm run test -- --test-update-snapshots",
+    "typecheck": "tsc",
+    "update": "npm run generate && npm run build && npm run style:fix && sort-package-json"
   },
-  "prettier": "@reggi/prettier-config",
+  "prettier": "@github/prettier-config",
   "dependencies": {
     "which": "^5.0.0"
   },
   "devDependencies": {
-    "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@reggi/prettier-config": "^1.0.2",
-    "@swc/core": "^1.7.39",
-    "@types/node": "^22.7.7",
-    "@types/sinon": "^17.0.3",
+    "@eslint/js": "^9.15.0",
+    "@github/prettier-config": "^0.0.6",
+    "@types/node": "^22.9.0",
     "@types/which": "^3.0.4",
-    "c8": "^10.1.2",
-    "nyc": "^17.1.0",
-    "sinon": "^19.0.2",
-    "source-map-support": "^0.5.21",
-    "tsup": "^8.3.0",
-    "tsx": "^4.19.1",
-    "typescript": "^5.6.3"
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "eslint": "^9.15.0",
+    "eslint-plugin-import": "^2.31.0",
+    "mock-fs": "^5.4.1",
+    "monocart-coverage-reports": "^2.11.2",
+    "prettier": "^3.2.5",
+    "sort-package-json": "^2.10.1",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.14.0"
   }
 }

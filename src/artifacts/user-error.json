@@ -1,0 +1,4 @@
+{
+  "name": "UserError",
+  "code": "export class UserError extends Error {\n    error: Error;\n    constructor(error: Error) {\n        super(error.message);\n        this.error = error;\n    }\n}\n"
+}

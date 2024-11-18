@@ -1,0 +1,258 @@
+exports[`command help > should match snapshot 1`] = `
+Usage: gamma <name> <age>
+Run a command gamma
+    --meow  <string> meow
+    --woof  <string>
+    --help           Prints command help message
+
+`;
+
+exports[`command help > should match snapshot 2`] = `
+Usage: gamma <name> <age>
+Run a command gamma
+    --meow  <string> meow
+    --woof  <string>
+    --help           Prints command help message
+
+`;
+
+exports[`command help > should match snapshot 3`] = `
+Usage: gamma <name> <age>
+Run a command gamma
+    --meow  <string> meow
+    --woof  <string>
+    --help           Prints command help message
+
+`;
+
+exports[`dir list no index > should match snapshot 1`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`show knevee help > should match snapshot 1`] = `
+Usage: knevee [runtime] [--] [flags] <dir-or-file> [subcommands] [command-args...]
+A command line tool that runs other command line tools
+    --cwd  <string>     The current working directory
+    --runtime  <string> The runtime to use
+    --help              Prints this help
+
+`;
+
+exports[`subcommand match > should match snapshot 1`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`subcommand match > should match snapshot 2`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`subcommand match > should match snapshot 3`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`subcommand match > should match snapshot 4`] = `
+alpha     Run command alpha     
+beta      Run command beta      
+gamma     Run command gamma     
+
+`;
+
+exports[`successful command > should match snapshot 1`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 10`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 11`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 12`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 13`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 14`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 15`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 16`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 17`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 18`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 19`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 2`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 20`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 21`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 22`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 23`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 24`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 25`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 26`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 27`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 28`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 29`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 3`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 30`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 31`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 4`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 5`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 6`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 7`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 8`] = `
+gamma
+
+`;
+
+exports[`successful command > should match snapshot 9`] = `
+gamma
+
+`;
+
+exports[`vaid stdin > should match snapshot 1`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`vaid stdin > should match snapshot 2`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`vaid stdin > should match snapshot 3`] = `
+MEOW
+WOOF
+
+`;
+
+exports[`valid stdout > should match snapshot 1`] = `
+WOOF
+
+`;
+
+exports[`valid stdout > should match snapshot 2`] = `
+WOOF
+
+`;
+
+exports[`valid stdout > should match snapshot 3`] = `
+WOOF
+
+`;

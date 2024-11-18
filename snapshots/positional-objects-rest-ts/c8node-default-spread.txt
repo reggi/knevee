@@ -1,9 +1,0 @@
-{
-  "name": "tim",
-  "favoriteFood": [
-    "apple",
-    "spaget",
-    "hawtdwg",
-    "meatloaf"
-  ]
-}
