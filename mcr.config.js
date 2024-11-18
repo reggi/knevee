@@ -30,4 +30,26 @@ export default {
       entry.sourceMap = result.sourceMapText
     },
   },
+  onEnd: coverageResults => {
+    const thresholds = {
+      bytes: 100,
+      statements: 100,
+      branches: 95,
+      functions: 100,
+      lines: 100,
+    }
+    const errors = []
+    const {summary} = coverageResults
+    Object.keys(thresholds).forEach(k => {
+      const pct = summary[k].pct
+      if (pct < thresholds[k]) {
+        errors.push(`Coverage threshold for ${k} (${pct} %) not met: ${thresholds[k]} %`)
+      }
+    })
+    if (errors.length) {
+      const errMsg = errors.join('\n')
+      console.log(errMsg)
+      process.exit(1)
+    }
+  },
 }
