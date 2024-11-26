@@ -2,7 +2,7 @@ import eslintPluginImport from 'eslint-plugin-import'
 import typescriptParser from '@typescript-eslint/parser'
 import path from 'path'
 import {recommended} from 'eslint-plugin-treekeeper'
-
+import nodeSpecifier from 'eslint-plugin-node-specifier'
 const shared = {
   files: ['src/**/*.ts', 'test/**/*.test.ts'],
   ignores: ['dist/**', 'coverage/**'],
@@ -24,8 +24,10 @@ export default [
     },
     plugins: {
       import: eslintPluginImport,
+      'node-specifier': nodeSpecifier,
     },
     rules: {
+      'node-specifier/enforce-node-specifier': 'error',
       'import/extensions': [
         'error',
         'ignorePackages',

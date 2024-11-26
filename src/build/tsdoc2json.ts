@@ -1,7 +1,7 @@
 #!/usr/bin/env -S npx tsx ./src/bin.ts
-import {exec} from 'child_process'
+import {exec} from 'node:child_process'
 import {type KneveeOptions} from '../index.ts'
-import {promisify} from 'util'
+import {promisify} from 'node:util'
 
 const execAsync = promisify(exec)
 
