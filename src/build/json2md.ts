@@ -3,7 +3,7 @@ import type {KneveeOptions} from '../index.ts'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-export const json2md = data => {
+export const json2md = (data: Array<Record<string, any>>) => {
   if (!Array.isArray(data)) {
     throw new Error('Input JSON must be an array')
   }
@@ -12,12 +12,17 @@ export const json2md = data => {
     `| ${headers.join(' | ')} |`,
     `| ${headers.map(() => '---').join(' | ')} |`,
     ...data.flatMap(row => {
-      const rowLines = headers.map(header => (row[header] || '').replaceAll('|', '\\|').split('\n'))
+      const rowLines = headers.map(header => {
+        let cellValue = row[header]
+        if (typeof cellValue !== 'string' && typeof cellValue !== 'number') {
+          cellValue = `\`${JSON.stringify(cellValue)}\``
+        }
+        return (typeof cellValue === 'string' || typeof cellValue === 'number' ? String(cellValue) : '')
+          .replaceAll('|', '\\|')
+          .split('\n')
+      })
       const maxLines = Math.max(...rowLines.map(lines => lines.length))
-      return Array.from(
-        {length: maxLines},
-        (_, i) => `| ${headers.map((header, j) => rowLines[j][i] || '').join(' | ')} |`,
-      )
+      return Array.from({length: maxLines}, (_, i) => `| ${headers.map((_, j) => rowLines[j][i] || '').join(' | ')} |`)
     }),
   ].join('\n')
   return table

@@ -7,12 +7,12 @@ import {evalString} from './eval-string.ts'
 import {spawnJsRuntime} from './eval.ts'
 import {run} from './run.ts'
 import {handleOutput} from './output.ts'
-import {UserError} from './user-error.ts'
+import {UserError} from '../utils/user-error.ts'
 import {debug} from '../utils/debug.ts'
-import {assemblePositials} from '../config/parse-args.ts'
+import {assemblePositials} from '../utils/parse-args.ts'
 import type {ValidatedArgv} from '../positional/validate.ts'
-import {fixArgv} from '../config/fix-argv.ts'
-import {fixFlags} from '../config/fix-flags.ts'
+import {fixArgv} from '../utils/fix-argv.ts'
+import {fixFlags} from '../utils/fix-flags.ts'
 
 export async function evaluate(config: ParsedOptions, argv: string[]) {
   const logger = debug('knevee:evaluate')

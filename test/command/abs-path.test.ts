@@ -1,5 +1,5 @@
 import assert from 'node:assert'
-import {absPath} from '../../src/config/abs-path.ts' // Adjust the import path as necessary
+import {absPath} from '../../src/command/abs-path.ts' // Adjust the import path as necessary
 import {describe, it} from 'node:test'
 import path from 'node:path'
 

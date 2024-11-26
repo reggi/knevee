@@ -5,14 +5,55 @@ import {search} from './search.ts'
 import {parseOptions} from '../options/index.ts'
 import {table} from '../utils/table.ts'
 import {importer} from '../utils/importer.ts'
-import type {Config} from '../config/index.ts'
 import {debug} from '../utils/debug.ts'
-import {absPath} from '../config/abs-path.ts'
+import {absPath} from './abs-path.ts'
+import {help} from '../utils/help.ts'
+import {flagTable} from '../utils/flag-table.ts'
+import {stdStrings} from '../utils/std-strings.ts'
+import {parseArgsBeforePositional} from '../utils/parse-args.ts'
+import pkg from '../../package.json' with {type: 'json'}
+import {fixArgv} from '../utils/fix-argv.ts'
+import {fixFlags} from '../utils/fix-flags.ts'
+import {kneveeFlags} from './knevee-flags.ts'
 
-export async function command(config: Config) {
+export async function command(opt?: {cwd?: string; argv?: string[]}) {
   const logger = debug('knevee:command')
   logger('start')
-  const {cwd, target, argv} = config
+  const runtimeKey = process.argv[0].split('/').pop()
+  // aparently flag args with spaces get split up
+  const argvOne = fixArgv(opt?.argv || process.argv.slice(2))
+
+  let {values: flags, positionals: argv} = parseArgsBeforePositional({
+    args: argvOne,
+    options: kneveeFlags,
+    strict: true,
+    allowPositionals: true,
+  })
+
+  // have to remove the quotes from the flags
+  flags = fixFlags(flags)
+
+  if (flags.version) {
+    console.log(pkg.version)
+    return process.exit(0)
+  }
+
+  if (flags.help) {
+    console.log(
+      help({
+        name: ['knevee'],
+        description: 'A command line tool that runs other command line tools',
+        table: table(flagTable(kneveeFlags)),
+        positionalRules: stdStrings('[runtime] [--] [flags] <dir-or-file> [subcommands] [command-args...]'),
+      }),
+    )
+    return process.exit(0)
+  }
+
+  const cwd = absPath(flags?.cwd || opt?.cwd || process.cwd())
+
+  const target = argv.shift()
+
   let {file, dir} = target ? await pathType(absPath(target, cwd)) : {}
 
   if (file) {

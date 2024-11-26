@@ -1,6 +1,6 @@
 import {describe, it} from 'node:test'
 import assert from 'node:assert'
-import {fixFlags} from '../../src/config/fix-flags.ts'
+import {fixFlags} from '../../src/utils/fix-flags.ts'
 
 describe('fixFlags', () => {
   it('removes surrounding double quotes from string values', () => {

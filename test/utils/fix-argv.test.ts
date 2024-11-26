@@ -1,6 +1,6 @@
 import {describe, it} from 'node:test'
 import assert from 'node:assert'
-import {fixArgv} from '../../src/config/fix-argv.ts'
+import {fixArgv} from '../../src/utils/fix-argv.ts'
 
 describe('fixArgv', () => {
   it('should correctly parse arguments with single quotes', () => {

@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import {describe, it} from 'node:test'
-import {splitArgv} from '../../src/utils/split-argv.ts'
+import {splitArgv} from '../../src/positional/split-argv.ts'
 
 describe('splitArgv', () => {
   it('should split arguments by --', function () {

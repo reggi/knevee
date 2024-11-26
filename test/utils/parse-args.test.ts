@@ -1,4 +1,4 @@
-import {assemblePositials, parseArgsBeforePositional} from '../../src/config/parse-args.ts'
+import {assemblePositials, parseArgsBeforePositional} from '../../src/utils/parse-args.ts'
 import {describe, it} from 'node:test'
 import assert from 'node:assert'
 

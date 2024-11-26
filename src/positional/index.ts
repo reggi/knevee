@@ -1,4 +1,4 @@
-import {splitArgv} from '../utils/split-argv.ts'
+import {splitArgv} from './split-argv.ts'
 import {stdStrings} from '../utils/std-strings.ts'
 import {parseRule} from './parse-rule.ts'
 import {type ValidatedArgv, validatePositionals} from './validate.ts'

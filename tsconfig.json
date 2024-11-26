@@ -4,7 +4,6 @@
     "target": "ESNext",
     "outDir": "./dist",
     "moduleResolution": "node",
-    "rootDir": ".",
     "declaration": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -13,5 +12,6 @@
     "strictNullChecks": true,
     "noEmit": true,
     "resolveJsonModule": true
-  }
+  },
+  "ignore": ["node_modules", "dist", "coverage"]
 }

@@ -3,9 +3,8 @@ import {command} from './command/index.ts'
 import {importer} from './utils/importer.ts'
 import {parseOptions} from './options/index.ts'
 import {Options} from './options/options.ts'
-import {configEntry} from './config/index.ts'
 import {debug} from './utils/debug.ts'
-import {UserError} from './evaluate/user-error.ts'
+import {UserError} from './utils/user-error.ts'
 
 export type KneveeOptions = Partial<Options>
 
@@ -30,11 +29,10 @@ function knevee(opt?: KneveeOptions) {
         logger('end')
         return results
       }
-      const config = configEntry(opt)
-      const {command: cmd, argv} = await command(config)
+      const {command: cmd, argv} = await command(opt)
       logger('importing the file for metadata')
       const mod = await importer(cmd.path)
-      const options = parseOptions({...opt, ...config, ...cmd, ...mod})
+      const options = parseOptions({...opt, ...cmd, ...mod})
       if (nullifyRuntime) options.runtime = undefined
       const results = await evaluate(options, argv)
       logger('end')

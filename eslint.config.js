@@ -1,16 +1,22 @@
 import eslintPluginImport from 'eslint-plugin-import'
 import typescriptParser from '@typescript-eslint/parser'
 import path from 'path'
+import {recommended} from 'eslint-plugin-treekeeper'
+
+const shared = {
+  files: ['src/**/*.ts', 'test/**/*.test.ts'],
+  ignores: ['dist/**', 'coverage/**'],
+}
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  recommended(shared),
   {
-    files: ['**/*.ts'],
-    ignores: ['dist/**', 'coverage/**'],
+    ...shared,
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
-        project: path.resolve(process.cwd(), './tsconfig.json'),
+        project: path.join(process.cwd(), './tsconfig.json'),
         ecmaFeatures: {
           jsx: true,
         },

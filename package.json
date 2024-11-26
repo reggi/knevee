@@ -33,6 +33,7 @@
   },
   "prettier": "@github/prettier-config",
   "dependencies": {
+    "eslint-plugin-treekeeper": "^1.1.0",
     "which": "^5.0.0"
   },
   "devDependencies": {
@@ -44,8 +45,10 @@
     "@typescript-eslint/parser": "^8.14.0",
     "eslint": "^9.15.0",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-reggi": "file:../eslint-plugin-reggi",
     "mock-fs": "^5.4.1",
     "monocart-coverage-reports": "^2.11.2",
+    "name": "file:../eslint-plugin-reggi",
     "prettier": "^3.2.5",
     "sort-package-json": "^2.10.1",
     "tsup": "^8.3.5",
